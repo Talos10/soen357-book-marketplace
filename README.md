@@ -1,3 +1,6 @@
+# Description of the Project
+A second-hand book marketplace for university students in Montreal.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

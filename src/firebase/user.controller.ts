@@ -1,13 +1,6 @@
-import FirebaseKeys from "./config";
-import Firebase from "firebase";
-require("firebase/firestore");
+import { db, storage} from "./firebase";
 
 class UserController {
-    constructor () {
-        if (!Firebase.apps.length) {
-            Firebase.initializeApp(FirebaseKeys);
-        }
-    }
 }
 
 export default UserController;
