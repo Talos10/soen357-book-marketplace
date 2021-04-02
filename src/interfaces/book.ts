@@ -10,7 +10,7 @@ interface Book {
     pageCornersFolded: boolean;
     pagesAnnotated: boolean;
     university: string;
-    images: URL[];
+    images: string[];
   }
   
   export type { Book };
