@@ -10,7 +10,7 @@ export default function Router() {
 
   return (
     <Switch>
-      <Guard allowIf={true} path="/" redirect="/home" exact />
+      <Guard path="/" allowIf={true} component={Login}  redirect="/home" exact />
       <>
         <Container>
           {/* Home */}

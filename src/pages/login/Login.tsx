@@ -35,8 +35,9 @@ export default function Login() {
 
   return (
     <div className="Login">
+
       <div className="login-card">
-        <p className="login-card__title lead">Supreme ERP</p>
+        <p className="login-card__title lead">Book Marketplace</p>
         <p className="login-card__header h4">Log In</p>
 
         <form onSubmit={tryLogin} className="login-card__form">
@@ -75,12 +76,22 @@ export default function Login() {
 
           <div>
             <div className="login-card__form__bottom">
-              <Link to="/forgot">Forgot password?</Link>
+              <Link to="/">Forgot password?</Link>
               <div className="login-card__form__submit">
-                <Button type="submit" variant="contained" color="primary">
+                <Button variant="contained" color="primary">
                   Log In
                 </Button>
               </div>
+              <div className="login-card__form__submit">
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  component={Link}
+                  to="/home">
+                  Login as Guest
+                </Button>
+              </div>
+
             </div>
           </div>
         </form>
