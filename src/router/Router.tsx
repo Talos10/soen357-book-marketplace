@@ -5,18 +5,16 @@ import {
 } from '../pages';
 import Guard from './Guard';
 import { Container } from '../components';
-import { useAuth } from '../contexts/Auth';
 
 export default function Router() {
-  const auth = useAuth();
 
   return (
     <Switch>
-      <Guard path="/" component={Login} redirect="/home" exact />
+      <Guard allowIf={true} path="/" redirect="/home" exact />
       <>
         <Container>
           {/* Home */}
-          <Guard path="/home" component={Home} exact />
+          <Guard path="/home" allowIf={true} component={Home} exact />
         </Container>
       </>
     </Switch>

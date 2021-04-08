@@ -11,7 +11,7 @@ import { ThemeProvider } from '@material-ui/core';
 import Theme from './Theme';
 import './styles/normalize.css';
 import './styles/styles.scss';
-import { SnackbarProvider, AuthProvider, BackendProvider } from './contexts';
+import { SnackbarProvider } from './contexts';
 
 ReactDOM.render(
   <ThemeProvider theme={Theme}>

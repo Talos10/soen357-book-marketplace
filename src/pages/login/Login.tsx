@@ -2,12 +2,10 @@ import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { TextField, Button } from '@material-ui/core';
 
-import { useAuth } from '../../contexts/Auth';
 import './Login.scss';
 
 export default function Login() {
   const history = useHistory();
-  const auth = useAuth();
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -16,10 +14,7 @@ export default function Login() {
     const form = e.target as HTMLFormElement;
 
     const { email, password } = getCredentials(form);
-    const response = await auth.logIn(email, password);
 
-    if (!response.status) handleLoginError(response.error);
-    else handleLoginSuccess();
   };
 
   const getCredentials = (form: HTMLFormElement) => {

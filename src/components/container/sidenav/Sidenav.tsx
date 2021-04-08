@@ -12,7 +12,6 @@ import {
   CollectionsBookmark
 } from '@material-ui/icons';
 
-import { useAuth } from '../../../contexts';
 import styles from './Sidenav.module.css';
 import './Sidenav.scss';
 
@@ -23,7 +22,6 @@ interface Props {
 
 export default function Sidenav({ showSidenav, toggleSidenav }: Props) {
   const location = useLocation();
-  const auth = useAuth();
 
   // When the page changes, we want the sidenav to close.
   useEffect(() => {
