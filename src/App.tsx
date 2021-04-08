@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import BookController from './firebase/book.controller';
 import { Filters } from './interfaces/filters';
+import Router from './router/Router';
 
 var filters : Filters = {
   // pageCornersFolded: false,
@@ -28,9 +29,7 @@ const advancedSearch = () => (new BookController()).advancedSearch(filters);
 
 function App() {
   return (
-    <button onClick={() => {
-      (advancedSearch()).then((value) => console.log("Function output: ", value));
-    }}>Click me!</button>
+    <Router></Router>
   );
 }
 

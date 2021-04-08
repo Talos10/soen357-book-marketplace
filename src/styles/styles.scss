@@ -1,0 +1,157 @@
+/* Colors */
+:root {
+  /* Primary Colors */
+  --primary: #3888f0;
+  --primary-faded: #3888f01f;
+  --bg: #ffffff;
+  --bg-dark: #f6f7f9;
+  --border: #dadce0;
+  --text: #000000;
+  --text-white: #ffffff;
+  --text-faded: #5f6368;
+  --text-title: #476282;
+
+  /* Order Status Color */
+  --red: #ffcfcc;
+  --orange: #ffea8a;
+  --green: #aee9d1;
+  --blue: #aedee9;
+  --grey: #e0e0e0;
+
+  /* Sidenav */
+  --sidenav-bg: #122c44;
+  --sidenav-bg-dark: #051e34;
+  --sidenav-text: #c4c4c4;
+  --sidenav-shadow: #00000066;
+
+  /* Effects */
+  --shadow-soft: 0px 1px 3px #3c40434d, 0px 1px 3px 1px #3c404326;
+  --bg-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+  /* Positioning */
+  --padding: 16px;
+
+  @media (min-width: 768px) {
+    --padding: 24px;
+  }
+}
+
+body {
+  background-color: var(--bg-dark);
+}
+
+/* Typography */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+h1,
+.h1 {
+  font-size: 96px;
+  font-weight: 300;
+  letter-spacing: -1.5px;
+}
+
+h1,
+.h1 {
+  font-size: 96px;
+  font-weight: 300;
+  letter-spacing: -1.5px;
+}
+
+h3,
+.h3 {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 56px;
+  letter-spacing: 0px;
+}
+
+h4,
+.h4 {
+  font-size: 34px;
+  line-height: 36px;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.subtitle1 {
+  font-size: 1rem;
+  letter-spacing: 0.15px;
+}
+
+.subtitle2 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.caption {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+}
+
+.lead {
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+}
+
+.title {
+  color: var(--text-title);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 28px;
+  margin-bottom: 28px;
+}
+
+p,
+.p {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.5px;
+  margin-top: 0;
+}
+
+.body2 {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: 0.25px;
+  line-height: 20px;
+}
+
+label,
+.label {
+  @extend p;
+  color: var(--text-faded);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
