@@ -3,21 +3,34 @@ import BookInfoForm from './BookInfoForm';
 import PriceForm from './PriceForm';
 import SchoolForm from './SchoolForm';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import { Link } from 'react-router-dom';
+import './AdvancedSearch.scss';
 
 export default function AdvancedSearch() {
 
   return (
-    <div>
+    <div className='AdvancedSearch'>
       <BookInfoForm/>
       <PriceForm/>
       <BookCondition/>
       <SchoolForm/>
       <Button
+        className='search__button'
         variant="contained"
         color="primary"
+        size="large"
       >
-        Send
+        Search
+      </Button>
+      <Button
+        className='search__button'
+        variant="outlined"
+        color="primary"
+        size="large"
+        component={Link}
+        to="/home"
+      >
+        Discard
       </Button>
     </div>
   );

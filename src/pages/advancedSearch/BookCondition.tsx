@@ -1,4 +1,3 @@
-import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
 import React, {useState} from 'react';
 import Paper from '@material-ui/core/Paper';
@@ -8,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 export default function BookCondition() {
   const [conditionValue, setConditionValue] = useState(0);
   const [annotatedValue, setAnnotatedValue] = useState(0);
-  const [foldedPageValue, setFoldedPageValue] = useState(0);
+  const [foldedPageValue, setFoldedPageValue] = useState(1);
 
   const handleConditionChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
@@ -29,11 +28,11 @@ export default function BookCondition() {
   };
 
   return (
-    <Card style={{padding: 25, marginTop: 30}}>
+    <Card className='form__container'>
     <h4>Book Condition</h4>
-    <div style={{display: "flex"}}>
+    <div className='book__condition__form'>
     <label htmlFor="event-title">Overall Condition:</label>
-      <Paper square style={{width: 800, marginLeft: 80}}>
+      <Paper square className='overall__condition'>
       <Tabs
         value={conditionValue}
         indicatorColor="primary"
@@ -50,9 +49,9 @@ export default function BookCondition() {
     </div>
     <br/>
     <br/>
-    <div style={{display: "flex"}}>
+    <div className='book__condition__form'>
     <label htmlFor="event-title">Annotated Pages:</label>
-      <Paper square style={{width: 320, marginLeft: 80}}>
+      <Paper square className='annotated__pages'>
       <Tabs
         value={annotatedValue}
         indicatorColor="primary"
@@ -66,9 +65,9 @@ export default function BookCondition() {
     </div>
     <br/>
     <br/>
-    <div style={{display: "flex"}}>
+    <div className='book__condition__form'>
     <label htmlFor="event-title">Folded Page Corners:</label>
-      <Paper square style={{width: 320, marginLeft: 50}}>
+      <Paper square className='folded__page__corners'>
       <Tabs
         value={foldedPageValue}
         indicatorColor="primary"
