@@ -15,15 +15,16 @@ import bookLogo from '../../assets/logo.png';
 import BookController from '../../firebase/book.controller';
 import { Book } from '../../interfaces/book';
 import { Filters } from '../../interfaces/filters';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import BookRow from './book-row/BookRow';
+import { v4 as uuidv4 } from 'uuid';
 
+let books: Map<string, Book> = new Map<string, Book>([]);
 
 export const Home = () => {
 
   const [searchType, setSearchType] = useState<string>('title');
-
-  //const [books, setBooks] = useState<Map<string, Book>>();
-
-  var books: Map<string, Book>;
+  const [tableClicked, setTableClicked] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchType(event.target.value);
@@ -68,7 +69,9 @@ export const Home = () => {
     const form = e.target as HTMLFormElement;
     const { searchString, searchType } = parseSearch(form);
 
-    switch(searchType){
+    setTableClicked(false); 
+
+    switch (searchType) {
 
       case "title":
         await searchByTitle(searchString);
@@ -83,6 +86,7 @@ export const Home = () => {
 
     console.log("Here are the books");
     console.log(books);
+    setTableClicked(true);
   };
 
   const parseSearch = (form: HTMLFormElement) => {
@@ -93,6 +97,8 @@ export const Home = () => {
     };
   };
 
+  const booksOnly = Array.from(books.values());
+
   return false ? (
     <Progress />
   ) : (
@@ -101,9 +107,7 @@ export const Home = () => {
         <div className="logo">
           <img src={bookLogo}></img>
         </div>
-
       </div>
-
       <form onSubmit={executeSearch}>
         <Card className="summary">
           <div className="table__search">
@@ -147,7 +151,30 @@ export const Home = () => {
           </div>
         </Card>
       </form>
-    </div>
+      {!tableClicked ? null :
+        <Card className="summary">
+          <Table size="small" className="table">
+            <TableHead>
+              <TableRow className="table__tr">
+                <TableCell width="50%">
+                  <div>Book Image</div>
+                </TableCell>
+                <TableCell>
+                  <div>Book Description</div>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            {books.size === 0 ? <div>There are no books!</div> :
+              <TableBody>
+                {booksOnly.map((book) => (
+                  <BookRow key={uuidv4()} props={book} />
+                ))}
+              </TableBody>
+            }
+          </Table>
+        </Card>
+      }
+    </div >
   )
 };
 
