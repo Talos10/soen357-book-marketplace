@@ -42,8 +42,6 @@ export const Home = () => {
   };
 
   const searchByISBN = async (searchString: string) => {
-    console.log("searchString: ", searchString);
-    console.log("searchString as unknown as number: ", searchString);
     const getAllBooksByISBN = () => bookController.getBooksByISBN(parseInt(searchString));
     books = await getAllBooksByISBN();
   };
