@@ -7,11 +7,89 @@ class BookController {
   filteredBookIds: string[] = [];
   nbrFilterTimesCalled : number = 0;
 
+  public async addBook(book : Book): Promise<string> {
+
+    var docId = "Error writing document";
+    var titleArrayProcessed = this.prepareSearchArray(book.title.trim(), 2, ["and", "and ", "the", "the "]);
+    var authorArrayProcessed = this.prepareSearchArray(book.author.trim(), 0, []);
+
+    console.log("Adding the following book to the db: ", book, " Epoch time: ", Date.now());
+
+    await db.collection("books").add({
+      title: book.title,
+      titleArray: titleArrayProcessed,
+      author: book.author,
+      authorArray: authorArrayProcessed,
+      ISBN: book.ISBN,
+      year: book.year,
+      price: book.price,
+      condition: book.condition,
+      courseSubject: book.courseSubject,
+      courseNumber: book.courseNumber,
+      pageCornersFolded: book.pageCornersFolded,
+      pagesAnnotated: book.pagesAnnotated,
+      university: book.university,
+      images: book.images
+    })
+    .then((docRef) => {
+        console.log("Document successfully written with ID: ", docRef.id);
+        docId = docRef.id;
+    })
+    .catch((error) => {
+        console.error("Error writing document: ", error);
+    });
+
+    return docId;
+  }
+
+  private prepareSearchArray (inputString: string, ignoreLength: number, excludeWords: string[]): string[] {
+    var stringArrayProcessed = [];
+    var string = "";
+    var pointers = [0]; // Marks the beginning of each word in the string.
+    var stringToArray = inputString.trim().split(""); // Each word is now in one spot of the array.
+    var avoidHyphen: number[] = [];
+
+    const processedString = inputString.trim().replace(/ +(?= )/g,'');
+
+    console.log("Processed string: ", processedString);
+
+    for (let i = 0; i < stringToArray.length; i++) {
+      if (stringToArray[i] == " ") pointers.push(i+1); // Find the first char of each word in the string.
+    }
+
+    console.log("Array of pointers: ", pointers);
+
+    for (let i = 0; i < pointers.length; i++) { // Start at the beginning of every word and go until the end.
+      for (let j = 0; j < processedString.substring(pointers[i]).length; j++) {
+
+        string = processedString.substr(pointers[i],j+1).toLowerCase();
+  
+        if (processedString.charAt(j) == "-" && !avoidHyphen.includes(j)) { // If you find a word with a hyphen, print out the substrings of it.
+          var start = (j+1);
+          var k = (j+1);
+          var insideString = "";
+          avoidHyphen.push(j);
+
+          while (true) { // Stop only when you encounter a space (i.e if you have the word good-looking, this code parcel prints out any all substrings of "looking" and stops at the end of it.)
+            insideString = processedString.substring(start,k+2).toLowerCase();
+
+            if (insideString.length > ignoreLength && !excludeWords.includes(insideString)) stringArrayProcessed.push(insideString);
+            if ((k+2) == processedString.length || processedString.charAt(k+2) == " ") break;
+            k++;
+          }
+        }
+        else if (string.length > ignoreLength && !excludeWords.includes(string)) stringArrayProcessed.push(string);
+      }
+    }
+
+    return stringArrayProcessed;
+  }
+
   public async getAllBooks(): Promise<Map<string, Book>> {
 
     console.log("Fetching all books! Epoch time: ", Date.now());
 
-    return this.resolveQuery(await db.collection("books"));
+    return this.resolveQuery(db.collection("books"));
   }
 
   public async getBookById(bookId: string): Promise<Map<string, Book>> {
@@ -42,7 +120,7 @@ class BookController {
     console.log("Fetching books by title" , title, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("title", "==", title)
+      db.collection("books").where("titleArray", "array-contains", title)
     );
   }
 
@@ -51,7 +129,7 @@ class BookController {
     console.log("Fetching books by author" , author, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("author", "==", author)
+      db.collection("books").where("authorArray", "array-contains", author)
     );
   }
 
@@ -60,7 +138,7 @@ class BookController {
     console.log("Fetching book by ISBN" , ISBN, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("ISBN", "==", ISBN)
+      db.collection("books").where("ISBN", "==", ISBN)
     );
   }
 
@@ -71,7 +149,7 @@ class BookController {
 
     console.log("Fetching books by course (subject = " , subject, " , number = ", number, ")  ! Epoch time: ", Date.now());
     return this.resolveQuery(
-      await db
+      db
         .collection("books")
         .where("courseSubject", "==", subject)
         .where("courseNumber", "==", number)
@@ -85,7 +163,7 @@ class BookController {
     console.log("Fetching books by university" , university, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("university", "==", university)
+      db.collection("books").where("university", "==", university)
     );
   }
 
@@ -165,7 +243,7 @@ class BookController {
     console.log("Fetching books by year" , year, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("year", "==", year)
+      db.collection("books").where("year", "==", year)
     );
   }
 
@@ -176,7 +254,7 @@ class BookController {
     console.log("Fetching books by course subject" , subject, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("courseSubject", "==", subject)
+      db.collection("books").where("courseSubject", "==", subject)
     );
   }
 
@@ -187,7 +265,7 @@ class BookController {
     console.log("Fetching books by course number" , number, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("courseNumber", "==", number)
+      db.collection("books").where("courseNumber", "==", number)
     );
   }
 
@@ -196,7 +274,7 @@ class BookController {
     console.log("Fetching books above price" , price, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("price", ">=", price)
+      db.collection("books").where("price", ">=", price)
     );
   }
 
@@ -205,7 +283,7 @@ class BookController {
     console.log("Fetching books below price" , price, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("price", "<=", price)
+      db.collection("books").where("price", "<=", price)
     );
   }
 
@@ -217,7 +295,7 @@ class BookController {
     console.log("Fetching books between price " , from, " and price ", to, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db
+      db
         .collection("books")
         .where("price", ">=", from)
         .where("price", "<=", to)
@@ -231,7 +309,7 @@ class BookController {
     console.log("Fetching books by conditions " , condition, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("condition", "in", condition)
+      db.collection("books").where("condition", "in", condition)
     );
   }
 
@@ -242,7 +320,7 @@ class BookController {
     console.log("Fetching books by page corners folded " , isFolded, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("pageCornersFolded", "==", isFolded)
+      db.collection("books").where("pageCornersFolded", "==", isFolded)
     );
   }
 
@@ -253,7 +331,7 @@ class BookController {
     console.log("Fetching books by pages annotated " , isAnnotated, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
-      await db.collection("books").where("pagesAnnotated", "==", isAnnotated)
+      db.collection("books").where("pagesAnnotated", "==", isAnnotated)
     );
   }
 
