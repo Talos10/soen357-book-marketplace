@@ -1,6 +1,10 @@
-import './BookRow.scss';
+import './BookRow.css';
 import { TableCell, TableRow } from '@material-ui/core';
 import { Book } from '../../../interfaces/book';
+import { v4 as uuidv4 } from 'uuid';
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
+import 'react-awesome-slider/src/styled/fold-out-animation/fold-out-animation.scss';
 
 interface Props {
     props: Book;
@@ -8,9 +12,17 @@ interface Props {
 
 export default function BookTable({ props }: Props) {
 
+    const slider = (
+        <AwesomeSlider animation="foldOutAnimation">
+            {props.images.map(image => (
+                <div key={uuidv4()} data-src={image} />
+            ))}
+        </AwesomeSlider>
+    );
+
     return (
         <TableRow className="table-row">
-            <TableCell><img src={props.images[0]} alt="photo" width="50%" /></TableCell>
+            <TableCell>{slider}</TableCell>
             <TableCell>
                 <div>ISBN: {props.ISBN}</div>
                 <div>Author: {props.author}</div>
