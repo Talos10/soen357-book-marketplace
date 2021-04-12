@@ -59,23 +59,23 @@ export const Home = () => {
     const addBook = () => bookController.addBook(book);
     addedBookId = await addBook();
 
-      // Example of book to add:
-      // {
-      //   title: "How to Make a Life-Size Shrek, a Mario man, and Luigi who is twenty-two",
-      //   titleArray: [],
-      //   author: "Francois Legault, Jean Lesage, Et. AL",
-      //   authorArray: [],
-      //   ISBN: Math.floor(Math.random() * 10000001),
-      //   year: 2021,
-      //   price: 666.6,
-      //   condition: "worn",
-      //   courseSubject: "TECH",
-      //   courseNumber: 514,
-      //   pageCornersFolded: true,
-      //   pagesAnnotated: true,
-      //   university: "Polytechnique",
-      //   images: ["https://en.wikipedia.org/wiki/Book#/media/File:Gutenberg_Bible,_Lenox_Copy,_New_York_Public_Library,_2009._Pic_01.jpg"]
-      // } as Book);
+    // Example of book to add:
+    // {
+    //   title: "How to Make a Life-Size Shrek, a Mario man, and Luigi who is twenty-two",
+    //   titleArray: [],
+    //   author: "Francois Legault, Jean Lesage, Et. AL",
+    //   authorArray: [],
+    //   ISBN: Math.floor(Math.random() * 10000001),
+    //   year: 2021,
+    //   price: 666.6,
+    //   condition: "worn",
+    //   courseSubject: "TECH",
+    //   courseNumber: 514,
+    //   pageCornersFolded: true,
+    //   pagesAnnotated: true,
+    //   university: "Polytechnique",
+    //   images: ["https://en.wikipedia.org/wiki/Book#/media/File:Gutenberg_Bible,_Lenox_Copy,_New_York_Public_Library,_2009._Pic_01.jpg"]
+    // } as Book);
   };
 
   const executeSearch = async (e: React.FormEvent) => {
@@ -112,7 +112,7 @@ export const Home = () => {
 
   const booksOnly = Array.from(books.values());
 
-  useEffect(()=>{
+  useEffect(() => {
     window.addEventListener('scroll', checkScrollTop)
     return function cleanup() {
       window.removeEventListener('scroll', checkScrollTop)
@@ -120,15 +120,15 @@ export const Home = () => {
   })
 
   const checkScrollTop = () => {
-    if (!showScroll && window.pageYOffset > 400){
+    if (!showScroll && window.pageYOffset > 400) {
       setShowScroll(true)
-    } else if (showScroll && window.pageYOffset <= 400){
+    } else if (showScroll && window.pageYOffset <= 400) {
       setShowScroll(false)
     }
   };
 
-  const scrollTop = () =>{
-    window.scrollTo({top: 0, behavior: 'smooth'});
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return false ? (
@@ -188,6 +188,9 @@ export const Home = () => {
           </div>
         </Card>
       </form>
+      {books.size === 0 ?
+        <Card className="summary"> 0 books were found</Card> :
+        <Card className="summary"> {books.size} books were found</Card>}
       {!tableClicked ? null :
         <Card className="summary">
           <Table size="small" className="table">
@@ -201,13 +204,12 @@ export const Home = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            {books.size === 0 ? <div>There are no books!</div> :
-              <TableBody>
-                {booksOnly.map((book) => (
-                  <BookRow key={uuidv4()} props={book} />
-                ))}
-              </TableBody>
-            }
+            <TableBody>
+              {booksOnly.map((book) => (
+                <BookRow key={uuidv4()} props={book} />
+              ))}
+            </TableBody>
+
           </Table>
         </Card>
       }

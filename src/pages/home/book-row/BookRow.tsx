@@ -3,7 +3,7 @@ import { TableCell, TableRow } from '@material-ui/core';
 import { Book } from '../../../interfaces/book';
 import { v4 as uuidv4 } from 'uuid';
 import AwesomeSlider from 'react-awesome-slider';
-import 'react-awesome-slider/dist/styles.css';
+//import 'react-awesome-slider/dist/styles.css';
 import 'react-awesome-slider/src/styled/fold-out-animation/fold-out-animation.scss';
 
 interface Props {
