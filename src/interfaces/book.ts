@@ -3,10 +3,10 @@ interface Book {
     titleArray: string[];
     author: string;
     authorArray: string[];
-    ISBN: number;
+    ISBN: string;
     year: number;
     price: number;
-    condition: "excellent" | "great" | 'good' | 'worn';
+    condition: "AS NEW" | "VERY GOOD" | 'GOOD' | 'FAIR' | 'POOR';
     courseSubject: string;
     courseNumber: number;
     pageCornersFolded: boolean;
