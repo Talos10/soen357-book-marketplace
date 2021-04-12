@@ -22,7 +22,7 @@ const getBookById = () => (new BookController()).getBookById("3A9Hx9BUYtqoNhb3xk
 const getAllBooks = () => (new BookController()).getAllBooks();
 const getAllBooksByTitle = () => (new BookController()).getBooksByTitle("Data Structures and Algorithms");
 const getAllBooksByAuthor = () => (new BookController()).getBooksByAuthor("David Rossi");
-const getAllBooksByISBN = () => (new BookController()).getBooksByISBN(123456789);
+const getAllBooksByISBN = () => (new BookController()).getBooksByISBN("123456789");
 const getAllBooksByCourse = () => (new BookController()).getBooksByCourse("COMP", 352);
 const getBooksByUniversity = () => (new BookController()).getBooksByUniversity("Concordia University");
 const advancedSearch = () => (new BookController()).advancedSearch(filters);

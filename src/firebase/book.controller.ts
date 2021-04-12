@@ -133,7 +133,7 @@ class BookController {
     );
   }
 
-  public async getBooksByISBN(ISBN: number): Promise<Map<string, Book>> {
+  public async getBooksByISBN(ISBN: string): Promise<Map<string, Book>> {
 
     console.log("Fetching book by ISBN" , ISBN, " ! Epoch time: ", Date.now());
 
