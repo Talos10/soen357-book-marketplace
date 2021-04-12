@@ -25,7 +25,7 @@ export default function AdvancedSearch() {
   const [fromPrice, setFromPrice] = useState(0);
   const [toPrice, setToPrice] = useState(0);
   const [overallCondition, setOverallCondition] = useState({value: 0, text: "AS NEW"});
-  const [annotatedPages, setAnnotatedPages] = useState({value: 0, text: "YES"});
+  const [annotatedPages, setAnnotatedPages] = useState({value: 1, text: "NO"});
   const [foldedPageCorners, setFoldedPageCorners] = useState({value: 1, text: "NO"});
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
@@ -47,18 +47,19 @@ export default function AdvancedSearch() {
   };
 
   const handleSearch = () => {
+    
     const filters : Filters = {
       pageCornersFolded: foldedPageCorners.text === 'YES' ? true : false,
-      prices: [fromPrice, toPrice],
-      //isAbove: true,
-      title: bookTitle,
-      author: author,
+      prices: toPrice !== 0 ? [fromPrice, toPrice] : [fromPrice],
+      isAbove: toPrice === 0 ? true : false,
+      title: bookTitle !== "" ? bookTitle : undefined,
+      author: author !== "" ? author : undefined,
       //ISBN: isbn,
       year: year !== 0 ? year : undefined,
       conditions: [overallCondition.text],
-      university: schoolName,
+      university: schoolName !== "" ? schoolName : undefined,
       //hasPictures: false,
-      courseSubject: courseSubject,
+      courseSubject: courseSubject !== "" ? courseSubject : undefined,
       courseNumber: courseNumber !== 0 ? courseNumber : undefined,
       pagesAnnotated: annotatedPages.text === 'YES' ? true : false
     }
@@ -134,7 +135,6 @@ export default function AdvancedSearch() {
             <Input
               id="standard-adornment-amount"
               startAdornment={<InputAdornment position="start">$</InputAdornment>}
-              value={fromPrice}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setFromPrice(Number(event.target.value));
               }}
@@ -148,7 +148,6 @@ export default function AdvancedSearch() {
             <Input
               id="standard-adornment-amount"
               startAdornment={<InputAdornment position="start">$</InputAdornment>}
-              value={toPrice}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setToPrice(Number(event.target.value));
               }}
