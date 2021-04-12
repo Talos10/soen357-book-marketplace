@@ -46,7 +46,7 @@ export const Home = () => {
   };
 
   const searchByISBN = async (searchString: string) => {
-    const getAllBooksByISBN = () => bookController.getBooksByISBN(parseInt(searchString));
+    const getAllBooksByISBN = () => bookController.getBooksByISBN(searchString);
     books = await getAllBooksByISBN();
   };
 

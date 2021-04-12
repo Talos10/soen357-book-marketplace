@@ -1,7 +1,7 @@
 interface Filters {
     title?: string;
     author?: string;
-    ISBN?: number;
+    ISBN?: string;
     year?: number;
     prices?: number[];
     isAbove?: boolean;
