@@ -22,7 +22,7 @@ td > div {
   --organic-arrow-thickness: 4px;
   --organic-arrow-height: 40px;
   --slider-height-percentage: 100%;
-  --loader-bar-color: #851515;
+  --loader-bar-color: #24AE4D;
   --loader-bar-height: 6px;
   --control-button-width: 10%;
   --control-button-height: 25%;
@@ -30,11 +30,11 @@ td > div {
   --control-button-hover-opacity: 0.75;
   --control-button-background: transparent;
   --transition-bezier: cubic-bezier(0.5, 0.075, 0.25, 0.95);
-  --slider-transition-duration: 575ms;
-  --organic-arrow-color: #6a6a6a;
+  --slider-transition-duration: 200ms;
+  --organic-arrow-color: #000000;
   --organic-arrow-border-radius: 0;
-  --control-bullet-color: #6a6a6a;
-  --control-bullet-active-color: #6a6a6a;
+  --control-bullet-color: #24AE4D;
+  --control-bullet-active-color: #24AE4D;
   --content-background-color: #2f2f2f; }
 
 .awssld {
