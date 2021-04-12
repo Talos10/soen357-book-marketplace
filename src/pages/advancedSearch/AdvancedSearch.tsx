@@ -22,8 +22,8 @@ export default function AdvancedSearch() {
   const [author, setAuthor] = useState("");
   const [isbn, setIsbn] = useState("");
   const [year, setYear] = useState(0);
-  const [fromPrice, setFromPrice] = useState(0);
-  const [toPrice, setToPrice] = useState(0);
+  const [fromPrice, setFromPrice] = useState(-1);
+  const [toPrice, setToPrice] = useState(-1);
   const [overallCondition, setOverallCondition] = useState({value: 0, text: "AS NEW"});
   const [annotatedPages, setAnnotatedPages] = useState({value: 1, text: "NO"});
   const [foldedPageCorners, setFoldedPageCorners] = useState({value: 1, text: "NO"});
@@ -46,12 +46,12 @@ export default function AdvancedSearch() {
     setFoldedPageCorners({value: newValue, text: selection.innerText});
   };
 
-  const handleSearch = () => {
-    
+  const handleSearch = async () => {
+
     const filters : Filters = {
       pageCornersFolded: foldedPageCorners.text === 'YES' ? true : false,
-      prices: toPrice !== 0 ? [fromPrice, toPrice] : [fromPrice],
-      isAbove: toPrice === 0 ? true : false,
+      prices: fromPrice !== -1 && toPrice !== -1 ? [fromPrice, toPrice] : fromPrice !== -1 ? [fromPrice] : toPrice !== -1 ? [toPrice] : undefined,
+      isAbove: fromPrice !== -1 && toPrice === -1 ? true : false,
       title: bookTitle !== "" ? bookTitle : undefined,
       author: author !== "" ? author : undefined,
       //ISBN: isbn,
@@ -64,7 +64,8 @@ export default function AdvancedSearch() {
       pagesAnnotated: annotatedPages.text === 'YES' ? true : false
     }
     console.log(filters);
-    new BookController().advancedSearch(filters);
+    const results = await new BookController().advancedSearch(filters);
+    console.log("Advanced Search:" + results);
   }
 
   return (
