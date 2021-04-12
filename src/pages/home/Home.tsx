@@ -42,7 +42,7 @@ export const Home = () => {
   };
 
   const searchByISBN = async (searchString: string) => {
-    const getAllBooksByISBN = () => bookController.getBooksByISBN(parseInt(searchString));
+    const getAllBooksByISBN = () => bookController.getBooksByISBN(searchString);
     books = await getAllBooksByISBN();
   };
 
@@ -61,7 +61,7 @@ export const Home = () => {
       //   titleArray: [],
       //   author: "Francois Legault, Jean Lesage, Et. AL",
       //   authorArray: [],
-      //   ISBN: Math.floor(Math.random() * 10000001),
+      //   ISBN: "asdasd",
       //   year: 2021,
       //   price: 666.6,
       //   condition: "worn",
