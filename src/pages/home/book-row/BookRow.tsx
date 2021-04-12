@@ -24,16 +24,16 @@ export default function BookTable({ props }: Props) {
         <TableRow className="table-row">
             <TableCell>{slider}</TableCell>
             <TableCell>
-                <div>ISBN: {props.ISBN}</div>
-                <div>Author: {props.author}</div>
-                <div>Title: {props.title}</div>
-                <div>University: {props.university}</div>
-                <div>Year: {props.year}</div>
-                <div>Price: {props.price}</div>
-                <div>Book condition: {props.condition}</div>
-                <div>Course: {props.courseSubject + " " + props.courseNumber}</div>
-                <div>{props.pageCornersFolded ? "Pages are folded" : "Pages are not folded"}</div>
-                <div>{props.pagesAnnotated ? "Pages are annotated" : "Pages are not annotated"}</div>
+                <div><b>ISBN: </b>{props.ISBN}</div>
+                <div><b>Author: </b>{props.author}</div>
+                <div><b>Title: </b>{props.title}</div>
+                <div><b>University: </b>{props.university}</div>
+                <div><b>Year: </b>{props.year}</div>
+                <div><b>Price: </b>{props.price}</div>
+                <div><b>Book condition: </b>{props.condition}</div>
+                <div><b>Course: </b>{props.courseSubject + " " + props.courseNumber}</div>
+                <div>{props.pageCornersFolded ? <b>Pages are folded</b> : <b>Pages are not folded</b>}</div>
+                <div>{props.pagesAnnotated ? <b>Pages are annotated</b> : <b>Pages are not annotated</b>}</div>
             </TableCell>
         </TableRow>
     );

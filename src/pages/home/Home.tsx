@@ -171,26 +171,29 @@ export const Home = () => {
         </Card>
       </form>
       {!tableClicked ? null :
-        <Card className="summary">
-          <Table size="small" className="table">
-            <TableHead>
-              <TableRow className="table__tr">
-                <TableCell width="50%">
-                  <div>Book Image</div>
-                </TableCell>
-                <TableCell>
-                  <div>Book Description</div>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {booksOnly.map((book) => (
-                <BookRow key={uuidv4()} props={book} />
-              ))}
-            </TableBody>
+        <div>
+        <h4>{books.size} books found !</h4>
+          <Card className="summary">
+            <Table size="small" className="table">
+              <TableHead>
+                <TableRow className="table__tr">
+                  <TableCell width="50%">
+                    <div>Book Image</div>
+                  </TableCell>
+                  <TableCell>
+                    <div>Book Description</div>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {booksOnly.map((book) => (
+                  <BookRow key={uuidv4()} props={book} />
+                ))}
+              </TableBody>
 
-          </Table>
-        </Card>
+            </Table>
+          </Card>
+        </div>
       }
     </div >
   )
