@@ -1,7 +1,12 @@
 import TextField from '@material-ui/core/TextField';
 import Card from '@material-ui/core/Card';
+import { useState } from 'react';
 
 export default function BookInfoForm() {
+  const [bookTitle, setBookTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [isbn, setIsbn] = useState("");
+  const [year, setYear] = useState(new Date().getFullYear());
 
   return (
     <Card className="book__info__form">
@@ -14,6 +19,10 @@ export default function BookInfoForm() {
       variant="outlined"
       required
       fullWidth
+      value={bookTitle}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+        setBookTitle(event.target.value);
+      }}
     />
 
     <label className='text__input' htmlFor="book-author">Author</label>
@@ -24,6 +33,10 @@ export default function BookInfoForm() {
       variant="outlined"
       required
       fullWidth
+      value={author}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+        setAuthor(event.target.value);
+      }}
     />
 
     <label className='text__input' htmlFor="book-isbn">ISBN</label>
@@ -34,16 +47,23 @@ export default function BookInfoForm() {
       variant="outlined"
       required
       fullWidth
+      value={isbn}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsbn(event.target.value);
+      }}
     />
 
     <label className='text__input' htmlFor="event-time">Year</label>
     <TextField
       type='number'
       required
-      defaultValue={new Date().getFullYear()}
       variant="outlined"
       id="validation-outlined-input"
       fullWidth
+      value={year}
+      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setYear(Number(e.target.value))
+      }}
     />
   </Card>
   );
