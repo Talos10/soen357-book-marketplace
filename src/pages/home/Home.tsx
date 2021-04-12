@@ -58,24 +58,6 @@ export const Home = () => {
   const addBook = async (book: Book) => {
     const addBook = () => bookController.addBook(book);
     addedBookId = await addBook();
-
-    // Example of book to add:
-    // {
-    //   title: "How to Make a Life-Size Shrek, a Mario man, and Luigi who is twenty-two",
-    //   titleArray: [],
-    //   author: "Francois Legault, Jean Lesage, Et. AL",
-    //   authorArray: [],
-    //   ISBN: Math.floor(Math.random() * 10000001),
-    //   year: 2021,
-    //   price: 666.6,
-    //   condition: "worn",
-    //   courseSubject: "TECH",
-    //   courseNumber: 514,
-    //   pageCornersFolded: true,
-    //   pagesAnnotated: true,
-    //   university: "Polytechnique",
-    //   images: ["https://en.wikipedia.org/wiki/Book#/media/File:Gutenberg_Bible,_Lenox_Copy,_New_York_Public_Library,_2009._Pic_01.jpg"]
-    // } as Book);
   };
 
   const executeSearch = async (e: React.FormEvent) => {
