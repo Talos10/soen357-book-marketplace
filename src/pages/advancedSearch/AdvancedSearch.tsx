@@ -240,7 +240,7 @@ export default function AdvancedSearch() {
         />
         <label className='text__input' htmlFor="school-course-number">Course Number  <Tooltip title="For example, if you are taking course COMP352, the course number is 352" placement="right-start"><InfoIcon/></Tooltip></label>
         <TextField
-          type="string"
+          type="number"
           id="school-course-number"
           name="school-course-number"
           variant="outlined"
