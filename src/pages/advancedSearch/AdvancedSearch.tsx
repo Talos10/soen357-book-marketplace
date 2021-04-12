@@ -14,6 +14,7 @@ import Select from '@material-ui/core/Select';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Filters } from '../../interfaces/filters';
+import BookController from '../../firebase/book.controller';
 import './AdvancedSearch.scss';
 
 export default function AdvancedSearch() {
@@ -49,17 +50,18 @@ export default function AdvancedSearch() {
     const filters : Filters = {
       pageCornersFolded: foldedPageCorners.text === 'YES' ? true : false,
       prices: [fromPrice, toPrice],
-      isAbove: true,
+      //isAbove: true,
       title: bookTitle,
       author: author,
       conditions: [overallCondition.text],
       university: schoolName,
-      hasPictures: false,
+      //hasPictures: false,
       courseSubject: courseSubject,
-      courseNumber: courseNumber,
+      courseNumber: courseNumber !== 0 ? courseNumber : undefined,
       pagesAnnotated: annotatedPages.text === 'YES' ? true : false
     }
     console.log(filters);
+    new BookController().advancedSearch(filters);
   }
 
   return (
