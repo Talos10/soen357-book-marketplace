@@ -21,46 +21,59 @@ export const Home = () => {
 
   const [searchType, setSearchType] = useState<string>('title');
 
-  //const [books, setBooks] = useState<Map<string, Book>>();
+  const bookController = new BookController();
 
   var books: Map<string, Book>;
+  
+  var addedBookId: string;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchType(event.target.value);
   };
   
   const searchByTitle = async (searchString: string) => {
-    var filters: Filters = {
-      title: searchString
-    }
-
-    const getAllBooksByTitle = () => (new BookController()).getBooksByTitle(searchString);
-    const advancedSearch = () => (new BookController()).advancedSearch(filters);
-
-    books = await advancedSearch();
+    const getAllBooksByTitle = () => bookController.getBooksByTitle(searchString);
+    books = await getAllBooksByTitle();
   };
 
-
   const searchByAuthor = async (searchString: string) => {
-    var filters: Filters = {
-      author: searchString
-    }
-
-    const getAllBooksByAuthor = () => (new BookController()).getBooksByAuthor(searchString);
-    const advancedSearch = () => (new BookController()).advancedSearch(filters);
-    
-    books = await advancedSearch();
+    const getAllBooksByAuthor = () => bookController.getBooksByAuthor(searchString);
+    books = await getAllBooksByAuthor();
   };
 
   const searchByISBN = async (searchString: string) => {
-    var filters: Filters = {
-      ISBN: searchString as unknown as number
-    }
+    console.log("searchString: ", searchString);
+    console.log("searchString as unknown as number: ", searchString);
+    const getAllBooksByISBN = () => bookController.getBooksByISBN(parseInt(searchString));
+    books = await getAllBooksByISBN();
+  };
 
-    const getAllBooksByISBN = () => (new BookController()).getBooksByISBN(searchString as unknown as number);
-    const advancedSearch = () => (new BookController()).advancedSearch(filters);
-    
+  const advancedSearch = async (filters: Filters) => {
+    const advancedSearch = () => bookController.advancedSearch(filters);
     books = await advancedSearch();
+  };
+
+  const addBook = async (book: Book) => {
+    const addBook = () => bookController.addBook(book);
+    addedBookId = await addBook();
+
+      // Example of book to add:
+      // {
+      //   title: "How to Make a Life-Size Shrek, a Mario man, and Luigi who is twenty-two",
+      //   titleArray: [],
+      //   author: "Francois Legault, Jean Lesage, Et. AL",
+      //   authorArray: [],
+      //   ISBN: Math.floor(Math.random() * 10000001),
+      //   year: 2021,
+      //   price: 666.6,
+      //   condition: "worn",
+      //   courseSubject: "TECH",
+      //   courseNumber: 514,
+      //   pageCornersFolded: true,
+      //   pagesAnnotated: true,
+      //   university: "Polytechnique",
+      //   images: ["https://en.wikipedia.org/wiki/Book#/media/File:Gutenberg_Bible,_Lenox_Copy,_New_York_Public_Library,_2009._Pic_01.jpg"]
+      // } as Book);
   };
 
   const executeSearch = async (e: React.FormEvent) => {
@@ -69,15 +82,14 @@ export const Home = () => {
     const { searchString, searchType } = parseSearch(form);
 
     switch(searchType){
-
       case "title":
-        await searchByTitle(searchString);
+        await searchByTitle(searchString.trim().toLocaleLowerCase());
         break;
       case "author":
-        await searchByAuthor(searchString);
+        await searchByAuthor(searchString.trim().toLocaleLowerCase());
         break;
       case "isbn":
-        await searchByISBN(searchString);
+        await searchByISBN(searchString.trim());
         break;
     }
 
