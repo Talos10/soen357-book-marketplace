@@ -45,9 +45,9 @@ export default function Sidenav({ showSidenav, toggleSidenav }: Props) {
 
           <div className="Sidenav__button">
             <Button
-              color={location.pathname.indexOf('/admin') === 0 ? 'primary' : 'default'}
+              color={location.pathname.indexOf('/settings') === 0 ? 'primary' : 'default'}
               component={Link}
-              to="/admin">
+              to="/settings">
               <SupervisorAccount style={{ paddingRight: 16 }} />
               User Settings
             </Button>
@@ -55,9 +55,9 @@ export default function Sidenav({ showSidenav, toggleSidenav }: Props) {
 
         <div className="Sidenav__button">
           <Button
-            color={location.pathname.indexOf('/accounting') === 0 ? 'primary' : 'default'}
+            color={location.pathname.indexOf('/sell') === 0 ? 'primary' : 'default'}
             component={Link}
-            to="/accounting">
+            to="/sell">
             <CollectionsBookmark style={{ paddingRight: 16 }} />
             Sell
           </Button>

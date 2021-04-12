@@ -1,6 +1,8 @@
 interface Book {
     title: string;
+    titleArray: string[];
     author: string;
+    authorArray: string[];
     ISBN: number;
     year: number;
     price: number;
