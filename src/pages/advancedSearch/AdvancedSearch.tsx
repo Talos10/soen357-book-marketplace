@@ -21,7 +21,7 @@ export default function AdvancedSearch() {
   const [bookTitle, setBookTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [isbn, setIsbn] = useState("");
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState(0);
   const [fromPrice, setFromPrice] = useState(0);
   const [toPrice, setToPrice] = useState(0);
   const [overallCondition, setOverallCondition] = useState({value: 0, text: "AS NEW"});
@@ -53,6 +53,8 @@ export default function AdvancedSearch() {
       //isAbove: true,
       title: bookTitle,
       author: author,
+      //ISBN: isbn,
+      year: year !== 0 ? year : undefined,
       conditions: [overallCondition.text],
       university: schoolName,
       //hasPictures: false,
@@ -117,7 +119,6 @@ export default function AdvancedSearch() {
           variant="outlined"
           id="validation-outlined-input"
           fullWidth
-          value={year}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             setYear(Number(e.target.value))
           }}
