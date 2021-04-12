@@ -8,8 +8,10 @@ import {
   FormControlLabel,
   Radio
 } from '@material-ui/core';
+import { FaArrowCircleUp } from 'react-icons/fa';
 import { Card, Progress, ReturnButton } from '../../components';
 import './Home.scss';
+import './Home.css';
 import { Search } from '@material-ui/icons';
 import bookLogo from '../../assets/logo.png';
 import BookController from '../../firebase/book.controller';
@@ -25,6 +27,7 @@ export const Home = () => {
 
   const [searchType, setSearchType] = useState<string>('title');
   const [tableClicked, setTableClicked] = useState<boolean>(false);
+  const [showScroll, setShowScroll] = useState(false);
   const bookController = new BookController();
   var addedBookId: string;
 
@@ -80,7 +83,7 @@ export const Home = () => {
     const form = e.target as HTMLFormElement;
     const { searchString, searchType } = parseSearch(form);
 
-    setTableClicked(false); 
+    setTableClicked(false);
 
     switch (searchType) {
       case "title":
@@ -109,10 +112,34 @@ export const Home = () => {
 
   const booksOnly = Array.from(books.values());
 
+  useEffect(()=>{
+    window.addEventListener('scroll', checkScrollTop)
+    return function cleanup() {
+      window.removeEventListener('scroll', checkScrollTop)
+    }
+  })
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400){
+      setShowScroll(true)
+    } else if (showScroll && window.pageYOffset <= 400){
+      setShowScroll(false)
+    }
+  };
+
+  const scrollTop = () =>{
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  };
+
   return false ? (
     <Progress />
   ) : (
     <div className="Home">
+      <FaArrowCircleUp
+        className="scrollTop"
+        onClick={scrollTop}
+        style={{ height: 40, display: showScroll ? 'flex' : 'none' }}
+      />
       <div className="home__top">
         <div className="logo">
           <img src={bookLogo}></img>
