@@ -65,7 +65,7 @@ export default function AdvancedSearch() {
     }
     console.log(filters);
     const results = await new BookController().advancedSearch(filters);
-    console.log("Advanced Search:" + results);
+    console.log("Advanced Search:", results);
   }
 
   return (
