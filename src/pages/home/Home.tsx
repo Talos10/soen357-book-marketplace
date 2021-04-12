@@ -188,9 +188,6 @@ export const Home = () => {
           </div>
         </Card>
       </form>
-      {books.size === 0 ?
-        <Card className="summary"> 0 books were found</Card> :
-        <Card className="summary"> {books.size} books were found</Card>}
       {!tableClicked ? null :
         <Card className="summary">
           <Table size="small" className="table">
