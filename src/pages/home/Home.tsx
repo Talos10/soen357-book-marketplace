@@ -28,8 +28,9 @@ export const Home = () => {
   const [tableClicked, setTableClicked] = useState<boolean>(false);
   const [showScroll, setShowScroll] = useState(false);
   const bookController = new BookController();
-  //const location = useLocation<Location>();
-  //const data = location.state;
+  let location = useLocation<Map<string, Book> | undefined>();
+  var advancedBooks = location.state;
+  console.log(advancedBooks);
 
   var addedBookId: string;
 
@@ -81,7 +82,6 @@ export const Home = () => {
         break;
     }
 
-    //console.log(data);
     console.log("Here are the books");
     console.log(books);
     setTableClicked(true);
@@ -95,10 +95,11 @@ export const Home = () => {
     };
   };
 
-  //const booksOnly = Array.from(books.values());
+  const advancedKeysOnly = advancedBooks !== undefined ? Array.from(advancedBooks.keys()) : null;
   const keysOnly = Array.from(books.keys());
 
   useEffect(() => {
+    window.history.replaceState({}, document.title);
     window.addEventListener('scroll', checkScrollTop)
     return function cleanup() {
       window.removeEventListener('scroll', checkScrollTop)
@@ -167,6 +168,7 @@ export const Home = () => {
             </FormControl>
             <Button color="primary"
               variant="contained"
+              onClick={() => {books = new Map<string, Book>([]);}}
               component={Link}
               to="/advanced-search">
               Try Advanced Search
@@ -174,10 +176,15 @@ export const Home = () => {
           </div>
         </Card>
       </form>
-      {!tableClicked ? null :
+      {!tableClicked && advancedBooks === undefined ? null :
         <div>
-          <h4 className="title">{books.size === 0 || books.size === 1 ? <div>{books.size} book found !</div> : <div>{books.size} books found !</div>}</h4>
-          {books.size === 0 ? null :
+          <h4 className="title">
+            { books.size !== 0 ?
+            books.size === 0 || books.size === 1 ? <div>{books.size} book found !</div> : <div>{books.size} books found !</div> :
+            advancedBooks?.size === 0 || advancedBooks?.size === 1 ? <div>{advancedBooks?.size} book found !</div> : <div>{advancedBooks?.size} books found !</div>
+            }
+            </h4>
+          {books.size === 0 && advancedBooks?.size === 0 ? null :
             <Card className="summary">
               <Table size="small" className="table">
                 <TableHead>
@@ -188,9 +195,14 @@ export const Home = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {keysOnly.map((id) => (
-                    <BookRow key={id} props={id} book={books.get(id)} />
-                  ))}
+                  {
+                    books.size !== 0 ?
+                    keysOnly.map((id) => (
+                      <BookRow key={id} props={id} book={books.get(id)} />
+                    )) : advancedKeysOnly?.map((id) => (
+                      <BookRow key={id} props={id} book={advancedBooks?.get(id)} />
+                    ))
+                  }
                 </TableBody>
               </Table>
             </Card>

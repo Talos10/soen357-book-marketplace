@@ -20,7 +20,6 @@ import { Book } from '../../interfaces/book';
 import { useHistory } from 'react-router-dom';
 
 let results: Map<string, Book> = new Map<string, Book>([]);
-let exportFilters: Filters = {};
 
 export default function AdvancedSearch() {
   const [bookTitle, setBookTitle] = useState("");
@@ -35,6 +34,7 @@ export default function AdvancedSearch() {
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
   const [courseNumber, setCourseNumber] = useState(0);
+  const history = useHistory();
 
   const handleConditionChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
@@ -53,7 +53,7 @@ export default function AdvancedSearch() {
 
   const handleSearch = async () => {
 
-    exportFilters = {
+    const filters: Filters = {
       pageCornersFolded: foldedPageCorners.text === 'YES' ? true : false,
       prices: fromPrice !== -1 && toPrice !== -1 ? [fromPrice, toPrice] : fromPrice !== -1 ? [fromPrice] : toPrice !== -1 ? [toPrice] : undefined,
       isAbove: fromPrice !== -1 && toPrice === -1 ? true : false,
@@ -68,7 +68,13 @@ export default function AdvancedSearch() {
       courseNumber: courseNumber !== 0 ? courseNumber : undefined,
       pagesAnnotated: annotatedPages.text === 'YES' ? true : false
     }
-    console.log("filters: " + exportFilters);
+    console.log("filters: " + filters);
+    const advancedBooks = await new BookController().advancedSearch(filters);
+    console.log("Advanced Search:", advancedBooks);
+    history.push({
+      pathname:"/home",
+      state: advancedBooks
+    })
   }
 
   return (
@@ -264,12 +270,7 @@ export default function AdvancedSearch() {
         variant="contained"
         color="primary"
         size="large"
-        component={Link}
         onClick = {() => handleSearch()}
-        to={{
-          pathname: "/home",
-          state: { exportFilters }
-        }}
       >
         Search
       </Button>
