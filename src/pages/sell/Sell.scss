@@ -1,0 +1,59 @@
+.Sell {
+
+  .post__button {
+      float: right;
+      margin-top: 30px;
+      margin-left: 5px;
+  }
+
+  .book__info__form {
+      padding: 25px;
+  }
+
+  .form__container {
+      padding: 25px;
+      margin-Top: 30px;
+  }
+
+  .text__input {
+      margin-top: 15px;
+  }
+
+  .price__form {
+      display: flex;
+
+      .amount__input {
+          margin-left: 10px;
+      }
+  }
+
+  .book__condition__form {
+      display: flex;
+
+      .overall__condition {
+          width: 800px; 
+          margin-left: 80px;
+      }
+
+      .annotated__pages {
+          width: 320px; 
+          margin-left: 80px;
+      }
+
+      .folded__page__corners {
+          width: 320px;
+          margin-left: 50px;
+      }
+  }
+
+  .image-item {
+    display: flex;
+    margin: 10px 0;
+  }
+  .image-item__btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+
+}

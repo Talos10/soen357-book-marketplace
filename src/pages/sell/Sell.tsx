@@ -1,75 +1,87 @@
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import InfoIcon from '@material-ui/icons/Info';
-import Tooltip from '@material-ui/core/Tooltip';
-import Select from '@material-ui/core/Select';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { Filters } from '../../interfaces/filters';
+import {
+  Button,
+  InputBase,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  TextField,
+  InputLabel,
+  InputAdornment,
+  Tab,
+  Paper,
+  Tabs,
+  Select,
+  Tooltip,
+  Input
+} from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
+import { Card, Progress, ReturnButton } from '../../components';
+import './Sell.scss';
+import { Search } from '@material-ui/icons';
+import bookLogo from '../../assets/logo.png';
 import BookController from '../../firebase/book.controller';
-import './AdvancedSearch.scss';
+import { Book } from '../../interfaces/book';
+import { Filters } from '../../interfaces/filters';
+import ImageUploading, { ImageListType } from "react-images-uploading";
 
-export default function AdvancedSearch() {
+
+export const Sell = () => {
+
+  var bookToAdd: Book;
+
+  const maxImages = 4;
+
   const [bookTitle, setBookTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [isbn, setIsbn] = useState("");
   const [year, setYear] = useState(0);
-  const [fromPrice, setFromPrice] = useState(-1);
-  const [toPrice, setToPrice] = useState(-1);
-  const [overallCondition, setOverallCondition] = useState({value: 0, text: "AS NEW"});
-  const [annotatedPages, setAnnotatedPages] = useState({value: 1, text: "NO"});
-  const [foldedPageCorners, setFoldedPageCorners] = useState({value: 1, text: "NO"});
+  const [price, setPrice] = useState(-1);
+  const [overallCondition, setOverallCondition] = useState({ value: 0, text: "AS NEW" });
+  const [annotatedPages, setAnnotatedPages] = useState({ value: 1, text: "NO" });
+  const [foldedPageCorners, setFoldedPageCorners] = useState({ value: 1, text: "NO" });
+  const [images, setImages] = React.useState([]);
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
   const [courseNumber, setCourseNumber] = useState(0);
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleConditionChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
-    setOverallCondition({value: newValue, text: selection.innerText});
+    setOverallCondition({ value: newValue, text: selection.innerText });
   };
 
   const handleAnnotationChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
-    setAnnotatedPages({value: newValue, text: selection.innerText});
+    setAnnotatedPages({ value: newValue, text: selection.innerText });
   };
 
   const handleFoldedChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
-    setFoldedPageCorners({value: newValue, text: selection.innerText});
+    setFoldedPageCorners({ value: newValue, text: selection.innerText });
   };
 
-  const handleSearch = async () => {
+  const onImageChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList as never[]);
+  };
 
-    const filters : Filters = {
-      pageCornersFolded: foldedPageCorners.text === 'YES' ? true : false,
-      prices: fromPrice !== -1 && toPrice !== -1 ? [fromPrice, toPrice] : fromPrice !== -1 ? [fromPrice] : toPrice !== -1 ? [toPrice] : undefined,
-      isAbove: fromPrice !== -1 && toPrice === -1 ? true : false,
-      title: bookTitle !== "" ? bookTitle : undefined,
-      author: author !== "" ? author : undefined,
-      //ISBN: isbn,
-      year: year !== 0 ? year : undefined,
-      conditions: [overallCondition.text],
-      university: schoolName !== "" ? schoolName : undefined,
-      //hasPictures: false,
-      courseSubject: courseSubject !== "" ? courseSubject : undefined,
-      courseNumber: courseNumber !== 0 ? courseNumber : undefined,
-      pagesAnnotated: annotatedPages.text === 'YES' ? true : false
-    }
-    console.log(filters);
-    const results = await new BookController().advancedSearch(filters);
-    console.log("Advanced Search:", results);
-  }
+  return false ? (
+    <Progress />
+  ) : (
+    <div className='Sell'>
 
-  return (
-    <div className='AdvancedSearch'>
+      <div>
+        <p><h3>Post a Book for Sale</h3></p>
+      </div>
+
       <Card className="book__info__form">
         <h4>Book Information</h4>
         <label className='text__input' htmlFor="book-title">Book Title</label>
@@ -129,28 +141,13 @@ export default function AdvancedSearch() {
       <Card className='form__container'>
         <h4>Price</h4>
         <div className="price__form">
-          <p className="from__to">From</p>
-          &nbsp;&nbsp;&nbsp;&nbsp;
           <FormControl>
             <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
             <Input
               id="standard-adornment-amount"
               startAdornment={<InputAdornment position="start">$</InputAdornment>}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setFromPrice(Number(event.target.value));
-              }}
-            />
-          </FormControl>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <p className="from__to">To</p>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <FormControl>
-            <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
-            <Input
-              id="standard-adornment-amount"
-              startAdornment={<InputAdornment position="start">$</InputAdornment>}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setToPrice(Number(event.target.value));
+                setPrice(Number(event.target.value));
               }}
             />
           </FormControl>
@@ -175,8 +172,8 @@ export default function AdvancedSearch() {
             </Tabs>
           </Paper>
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div className='book__condition__form'>
           <label htmlFor="event-title">Annotated Pages:</label>
           <Paper square className='annotated__pages'>
@@ -191,8 +188,8 @@ export default function AdvancedSearch() {
             </Tabs>
           </Paper>
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div className='book__condition__form'>
           <label htmlFor="event-title">Folded Page Corners:</label>
           <Paper square className='folded__page__corners'>
@@ -208,6 +205,47 @@ export default function AdvancedSearch() {
           </Paper>
         </div>
       </Card>
+      <Card>
+        <h4>Book Images</h4>
+        <ImageUploading
+          multiple
+          value={images}
+          onChange={onImageChange}
+          maxNumber={maxImages}
+        >
+          {({
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps
+          }) => (
+            // write your building UI
+            <div className="upload__image-wrapper">
+              <button
+                style={isDragging ? { color: "red" } : undefined}
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                Click or Drop here
+            </button>
+            &nbsp;
+              <button onClick={onImageRemoveAll}>Remove all images</button>
+              {imageList.map((image, index) => (
+                <div key={index} className="image-item">
+                  <img src={image.dataURL} alt="" width="100" />
+                  <div className="image-item__btn-wrapper">
+                    <button onClick={() => onImageUpdate(index)}>Update</button>
+                    <button onClick={() => onImageRemove(index)}>Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </ImageUploading>
+      </Card>
       <Card className='form__container'>
         <h4>School</h4>
         <label htmlFor="school-name">School Name</label>
@@ -216,19 +254,20 @@ export default function AdvancedSearch() {
             native
             value={schoolName}
             onChange={(event) => {
-              setSchoolName(event.target.value as string);}
+              setSchoolName(event.target.value as string);
+            }
             }
           >
             <option aria-label="None" value="" />
-            <option value={"Concordia University"}>Concordia University</option>
-            <option value={"McGill University"}>McGill University</option>
+            <option value={"Concordia"}>Concordia University</option>
+            <option value={"McGill"}>McGill University</option>
             <option value={"UdeM"}>Université de Montréal</option>
             <option value={"Polytechnique"}>Polytechnique Montréal</option>
             <option value={"ÉTS"}>ÉTS</option>
             <option value={"UQAM"}>Université du Québec à Montréal</option>
           </Select>
         </FormControl>
-        <label className='text__input' htmlFor="school-course-subject">Course Subject  <Tooltip title="For example, if you are taking course COMP352, the course subject is COMP" placement="right-start"><InfoIcon/></Tooltip></label>
+        <label className='text__input' htmlFor="school-course-subject">Course Subject  <Tooltip title="For example, if you are taking course COMP352, the course subject is COMP" placement="right-start"><InfoIcon /></Tooltip></label>
         <TextField
           type="string"
           id="school-course-subject"
@@ -238,10 +277,11 @@ export default function AdvancedSearch() {
           fullWidth
           value={courseSubject}
           onChange={(event) => {
-            setCourseSubject(event.target.value as string);}
+            setCourseSubject(event.target.value as string);
+          }
           }
         />
-        <label className='text__input' htmlFor="school-course-number">Course Number  <Tooltip title="For example, if you are taking course COMP352, the course number is 352" placement="right-start"><InfoIcon/></Tooltip></label>
+        <label className='text__input' htmlFor="school-course-number">Course Number  <Tooltip title="For example, if you are taking course COMP352, the course number is 352" placement="right-start"><InfoIcon /></Tooltip></label>
         <TextField
           type="number"
           id="school-course-number"
@@ -254,17 +294,47 @@ export default function AdvancedSearch() {
           }}
         />
       </Card>
+
+      <Card className="contact__info__form">
+        <h4>Contact Information</h4>
+        <label className='text__input' htmlFor="email">Email</label>
+        <TextField
+          type="email"
+          id="email"
+          name="email"
+          variant="outlined"
+          required
+          fullWidth
+          value={email}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setEmail(event.target.value);
+          }}
+        />
+
+        <label className='text__input' htmlFor="phone-number">Phone Number</label>
+        <TextField
+          type="tel"
+          id="phone-number"
+          name="phone-number"
+          variant="outlined"
+          required
+          value={phone}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setPhone(event.target.value);
+          }}
+        />
+      </Card>
       <Button
-        className='search__button'
+        className='post__button'
         variant="contained"
         color="primary"
         size="large"
-        onClick={() => handleSearch()}
+        type="submit"
       >
-        Search
-      </Button>
+        Post
+    </Button>
       <Button
-        className='search__button'
+        className='post__button'
         variant="outlined"
         color="primary"
         size="large"
@@ -272,7 +342,9 @@ export default function AdvancedSearch() {
         to="/home"
       >
         Discard
-      </Button>
+    </Button>
     </div>
-  );
-}
+  )
+};
+
+export default Sell;
