@@ -257,7 +257,7 @@ export const Sell = () => {
           </div>
         </Card>
         <Card>
-          <h4>Book Images</h4>
+          <h4>Upload Images</h4>
           <ImageUploading
             multiple
             value={images}
@@ -275,21 +275,37 @@ export const Sell = () => {
             }) => (
               // write your building UI
               <div className="upload__image-wrapper">
-                <button
+                <Button
                   style={isDragging ? { color: "red" } : undefined}
                   onClick={onImageUpload}
                   {...dragProps}
+                  variant="outlined"
+                  color="primary"
+                  size="large"
                 >
-                  Click or Drop here
-            </button>
+                  Click or Drop Images Here
+            </Button>
             &nbsp;
-                <button onClick={onImageRemoveAll}>Remove all images</button>
+                <Button
+                onClick={onImageRemoveAll}
+                variant="outlined"
+                color="secondary"
+                size="large"
+                >Remove all images</Button>
                 {imageList.map((image, index) => (
                   <div key={index} className="image-item">
                     <img src={image.dataURL} alt="" width="100" />
                     <div className="image-item__btn-wrapper">
-                      <button onClick={() => onImageUpdate(index)}>Update</button>
-                      <button onClick={() => onImageRemove(index)}>Remove</button>
+                      <Button
+                      variant="outlined"
+                      color="primary"
+                      size="large"
+                      onClick={() => onImageUpdate(index)}>Update</Button>
+                      <Button
+                      variant="outlined"
+                      color="secondary"
+                      size="large"
+                      onClick={() => onImageRemove(index)}>Remove</Button>
                     </div>
                   </div>
                 ))}
