@@ -12,7 +12,6 @@ import {
 import { FaArrowCircleUp } from 'react-icons/fa';
 import { Card, Progress, ReturnButton } from '../../components';
 import './Home.scss';
-import './Home.css';
 import { Search } from '@material-ui/icons';
 import bookLogo from '../../assets/logo.png';
 import BookController from '../../firebase/book.controller';
