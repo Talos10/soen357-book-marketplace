@@ -7,6 +7,35 @@ class BookController {
   filteredBookIds: string[] = [];
   nbrFilterTimesCalled : number = 0;
 
+  public async uploadFile(imageFile: File) {
+
+    const storageRef = storage.ref();
+
+    return new Promise(function (resolve, reject) {
+      const task = storageRef.child(imageFile.name).put(imageFile);
+
+      task.on(
+        "state_changed",
+        function progress(snapshot) {
+          const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Uploading file with name ", imageFile.name, " | Progress: ", percentage, "%");
+        },
+
+        function error(err) {
+          console.log("Error uploading file with name ", imageFile.name, " Error message: ", err);
+          reject(err);
+        },
+
+        async function complete() {
+          //The getDownloadURL returns a promise and it is resolved to get the image url.
+          const imageURL = await task.snapshot.ref.getDownloadURL();
+          console.log("Successfully uploaded file with name ", imageFile.name, " | Image available at URL: \" ", imageURL, "\"");
+          resolve(imageURL);
+        }
+      );
+    });
+  }
+
   public async addBook(book : Book): Promise<string> {
 
     var docId = "Error writing document";
