@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Location } from 'history';
 import {
   Button,
   InputBase,
@@ -19,7 +20,6 @@ import { Book } from '../../interfaces/book';
 import { Filters } from '../../interfaces/filters';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import BookRow from './book-row/BookRow';
-import { v4 as uuidv4 } from 'uuid';
 
 let books: Map<string, Book> = new Map<string, Book>([]);
 
@@ -29,6 +29,9 @@ export const Home = () => {
   const [tableClicked, setTableClicked] = useState<boolean>(false);
   const [showScroll, setShowScroll] = useState(false);
   const bookController = new BookController();
+  //const location = useLocation<Location>();
+  //const data = location.state;
+
   var addedBookId: string;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +82,7 @@ export const Home = () => {
         break;
     }
 
+    //console.log(data);
     console.log("Here are the books");
     console.log(books);
     setTableClicked(true);
@@ -92,7 +96,8 @@ export const Home = () => {
     };
   };
 
-  const booksOnly = Array.from(books.values());
+  //const booksOnly = Array.from(books.values());
+  const keysOnly = Array.from(books.keys());
 
   useEffect(() => {
     window.addEventListener('scroll', checkScrollTop)
@@ -172,27 +177,25 @@ export const Home = () => {
       </form>
       {!tableClicked ? null :
         <div>
-        <h4>{books.size} books found !</h4>
-          <Card className="summary">
-            <Table size="small" className="table">
-              <TableHead>
-                <TableRow className="table__tr">
-                  <TableCell width="50%">
-                    <div>Book Image</div>
-                  </TableCell>
-                  <TableCell>
-                    <div>Book Description</div>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {booksOnly.map((book) => (
-                  <BookRow key={uuidv4()} props={book} />
-                ))}
-              </TableBody>
-
-            </Table>
-          </Card>
+          <h4 className="title">{books.size === 0 || books.size === 1 ? <div>{books.size} book found !</div> : <div>{books.size} books found !</div>}</h4>
+          {books.size === 0 ? null :
+            <Card className="summary">
+              <Table size="small" className="table">
+                <TableHead>
+                  <TableRow className="table__tr">
+                    <TableCell>
+                      Book 
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {keysOnly.map((id) => (
+                    <BookRow key={id} props={id} book={books.get(id)} />
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
+          }
         </div>
       }
     </div >
