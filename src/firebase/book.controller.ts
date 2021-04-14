@@ -61,6 +61,8 @@ class BookController {
       pageCornersFolded: book.pageCornersFolded,
       pagesAnnotated: book.pagesAnnotated,
       university: book.university,
+      email: book.email,
+      phone: book.phone,
       images: book.images
     })
     .then((docRef) => {
