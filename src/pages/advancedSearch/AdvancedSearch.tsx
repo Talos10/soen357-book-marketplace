@@ -266,8 +266,8 @@ export default function AdvancedSearch() {
             }
           >
             <option aria-label="None" value="" />
-            <option value={"Concordia"}>Concordia University</option>
-            <option value={"McGill"}>McGill University</option>
+            <option value={"Concordia University"}>Concordia University</option>
+            <option value={"McGill University"}>McGill University</option>
             <option value={"UdeM"}>Université de Montréal</option>
             <option value={"Polytechnique"}>Polytechnique Montréal</option>
             <option value={"ÉTS"}>ÉTS</option>
