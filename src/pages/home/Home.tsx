@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Location } from 'history';
 import {
   Button,
@@ -20,7 +20,7 @@ import { Filters } from '../../interfaces/filters';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import BookRow from './book-row/BookRow';
 
-let books: Map<string, Book> = new Map<string, Book>([]);
+let books: Map<string, Book> | undefined = undefined;
 
 export const Home = () => {
 
@@ -29,15 +29,15 @@ export const Home = () => {
   const [showScroll, setShowScroll] = useState(false);
   const bookController = new BookController();
   let location = useLocation<Map<string, Book> | undefined>();
-  var advancedBooks = location.state;
-  console.log(advancedBooks);
+  const [advancedSearchBooks, setAdvancedSearchBooks] = useState<Map<string, Book>>();
+  console.log(books);
 
   var addedBookId: string;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchType(event.target.value);
   };
-  
+
   const searchByTitle = async (searchString: string) => {
     const getAllBooksByTitle = () => bookController.getBooksByTitle(searchString);
     books = await getAllBooksByTitle();
@@ -58,7 +58,7 @@ export const Home = () => {
     books = await advancedSearch();
   };
 
-  const addBook = async (book: Book) => {  
+  const addBook = async (book: Book) => {
     const addBook = () => bookController.addBook(book);
     addedBookId = await addBook();
   };
@@ -95,10 +95,15 @@ export const Home = () => {
     };
   };
 
-  const advancedKeysOnly = advancedBooks !== undefined ? Array.from(advancedBooks.keys()) : null;
-  const keysOnly = Array.from(books.keys());
+  const advancedKeysOnly = advancedSearchBooks !== undefined ? Array.from(advancedSearchBooks.keys()) : null;
+  const keysOnly = books === undefined ? null : Array.from(books?.keys());
 
   useEffect(() => {
+    console.log("books size is: ");
+    console.log(books?.size);
+    books?.size === 0 ? setAdvancedSearchBooks(undefined) : setAdvancedSearchBooks(location.state);
+    console.log(advancedSearchBooks);
+
     window.history.replaceState({}, document.title);
     window.addEventListener('scroll', checkScrollTop)
     return function cleanup() {
@@ -145,15 +150,17 @@ export const Home = () => {
               endAdornment={<Button
                 color="primary"
                 variant="contained"
-                type="submit">
+                type="submit"
+              >
                 Search
             </Button>}
             />
-            <Button 
+            <Button
               className="advanced__search__button"
               color="primary"
               size="small"
               component={Link}
+              onClick={() => books = undefined}
               to="/advanced-search">
               Advanced Search
             </Button>
@@ -177,37 +184,35 @@ export const Home = () => {
           </div>
         </Card>
       </form>
-      {!tableClicked && advancedBooks === undefined ? null :
+      {advancedSearchBooks === undefined && books == undefined ? null :
         <div>
-          <h4 className="title">
-            { books.size !== 0 ?
-            books.size === 0 || books.size === 1 ? <div>{books.size} book found !</div> : <div>{books.size} books found !</div> :
-            advancedBooks?.size === 0 || advancedBooks?.size === 1 ? <div>{advancedBooks?.size} book found !</div> : <div>{advancedBooks?.size} books found !</div>
+          {<h4 className="title">
+            {books !== undefined ?
+              books?.size === 0 || books?.size === 1 ? <div>{books?.size} book found !</div> : <div>{books?.size} books found !</div> :
+              advancedSearchBooks?.size === 0 || advancedSearchBooks?.size === 1 ? <div>{advancedSearchBooks?.size} book found !</div> : <div>{advancedSearchBooks?.size} books found !</div>
             }
-            </h4>
-          {books.size === 0 && advancedBooks?.size === 0 ? null :
-            <Card className="summary">
-              <Table size="small" className="table">
-                <TableHead>
-                  <TableRow className="table__tr">
-                    <TableCell>
-                      Book 
+          </h4>}
+          {books?.size !== 0 ? <Card className="summary">
+            <Table size="small" className="table">
+              <TableHead>
+                <TableRow className="table__tr">
+                  <TableCell>
+                    Book
                     </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {
-                    books.size !== 0 ?
-                    keysOnly.map((id) => (
-                      <BookRow key={id} props={id} book={books.get(id)} />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {
+                  books !== undefined ?
+                    keysOnly?.map((id) => (
+                      <BookRow key={id} props={id} book={books?.get(id)} />
                     )) : advancedKeysOnly?.map((id) => (
-                      <BookRow key={id} props={id} book={advancedBooks?.get(id)} />
+                      <BookRow key={id} props={id} book={advancedSearchBooks?.get(id)} />
                     ))
-                  }
-                </TableBody>
-              </Table>
-            </Card>
-          }
+                }
+              </TableBody>
+            </Table>
+          </Card> : null}
         </div>
       }
     </div >
