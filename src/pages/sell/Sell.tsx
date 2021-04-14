@@ -128,7 +128,7 @@ export const Sell = () => {
     <div className='Sell'>
       <form onSubmit = {postBook}>
         <div>
-          <p><h3>Post a Book for Sale</h3></p>
+          <h3>Post a Book for Sale</h3>
         </div>
 
         <Card className="book__info__form">
