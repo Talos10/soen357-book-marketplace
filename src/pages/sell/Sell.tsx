@@ -35,8 +35,8 @@ export const Sell = () => {
   const [year, setYear] = useState(0);
   const [price, setPrice] = useState(-1);
   const [overallCondition, setOverallCondition] = useState({ value: 0, text: "AS NEW" });
-  const [annotatedPages, setAnnotatedPages] = useState({ value: false, text: "NO" });
-  const [foldedPageCorners, setFoldedPageCorners] = useState({ value: false, text: "NO" });
+  const [annotatedPages, setAnnotatedPages] = useState({ value: 0, text: "NO" });
+  const [foldedPageCorners, setFoldedPageCorners] = useState({ value: 0, text: "NO" });
   const [images, setImages] = useState<ImageType[]>([]);
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
@@ -49,12 +49,12 @@ export const Sell = () => {
     setOverallCondition({ value: newValue, text: selection.innerText });
   };
 
-  const handleAnnotationChange = (event: React.ChangeEvent<{}>, newValue: boolean) => {
+  const handleAnnotationChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
     setAnnotatedPages({ value: newValue, text: selection.innerText });
   };
 
-  const handleFoldedChange = (event: React.ChangeEvent<{}>, newValue: boolean) => {
+  const handleFoldedChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
     setFoldedPageCorners({ value: newValue, text: selection.innerText });
   };
@@ -107,8 +107,8 @@ export const Sell = () => {
           year: year as number,
           price: price as number,
           condition: overallCondition.text as "AS NEW" | "VERY GOOD" | 'GOOD' | 'FAIR' | 'POOR',
-          pagesAnnotated: annotatedPages.value as boolean,
-          pageCornersFolded: foldedPageCorners.value as boolean,
+          pagesAnnotated: annotatedPages.value == 1 ? true : false as boolean,
+          pageCornersFolded: foldedPageCorners.value == 1 ? true : false as boolean,
           images: fileURLS as string [],
           university: schoolName as string,
           courseSubject: courseSubject as string,
@@ -234,8 +234,8 @@ export const Sell = () => {
                 textColor="primary"
                 onChange={handleAnnotationChange}
               >
-                <Tab label="Yes" value={true} />
-                <Tab label="No" value={false} />
+                <Tab label="Yes" value={1} />
+                <Tab label="No" value={0} />
               </Tabs>
             </Paper>
           </div>
@@ -250,8 +250,8 @@ export const Sell = () => {
                 textColor="primary"
                 onChange={handleFoldedChange}
               >
-                <Tab label="Yes" value={true} />
-                <Tab label="No" value={false} />
+                <Tab label="Yes" value={1} />
+                <Tab label="No" value={0} />
               </Tabs>
             </Paper>
           </div>
