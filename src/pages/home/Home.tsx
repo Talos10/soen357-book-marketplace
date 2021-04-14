@@ -124,15 +124,23 @@ export const Home = () => {
               id="search"
               startAdornment={<Search />}
               fullWidth
+              endAdornment={<Button
+                color="primary"
+                variant="contained"
+                type="submit">
+                Search
+            </Button>}
             />
+            <Button 
+              className="advanced__search__button"
+              color="primary"
+              size="small"
+              component={Link}
+              to="/advanced-search">
+              Advanced Search
+            </Button>
           </div>
           <div className="search__buttons">
-            <Button
-              color="primary"
-              variant="contained"
-              type="submit">
-              Search
-          </Button>
             <FormControl component="fieldset">
               <RadioGroup row value={searchType} onChange={handleChange}>
                 <FormControlLabel value={'title'} control={<Radio color="primary" />} label="Title" />
@@ -148,12 +156,6 @@ export const Home = () => {
                 />
               </RadioGroup>
             </FormControl>
-            <Button color="primary"
-              variant="contained"
-              component={Link}
-              to="/advanced-search">
-              Try Advanced Search
-          </Button>
           </div>
         </Card>
       </form>
