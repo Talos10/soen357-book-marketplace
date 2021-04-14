@@ -51,7 +51,7 @@ export const Home = () => {
     books = await advancedSearch();
   };
 
-  const addBook = async (book: Book) => {
+  const addBook = async (book: Book) => {  
     const addBook = () => bookController.addBook(book);
     addedBookId = await addBook();
 

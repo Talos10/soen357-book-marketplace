@@ -25,8 +25,8 @@ export default function AdvancedSearch() {
   const [fromPrice, setFromPrice] = useState(-1);
   const [toPrice, setToPrice] = useState(-1);
   const [overallCondition, setOverallCondition] = useState({value: 0, text: "AS NEW"});
-  const [annotatedPages, setAnnotatedPages] = useState({value: 1, text: "NO"});
-  const [foldedPageCorners, setFoldedPageCorners] = useState({value: 1, text: "NO"});
+  const [annotatedPages, setAnnotatedPages] = useState({value: 0, text: "NO"});
+  const [foldedPageCorners, setFoldedPageCorners] = useState({value: 0, text: "NO"});
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
   const [courseNumber, setCourseNumber] = useState(0);
@@ -49,7 +49,7 @@ export default function AdvancedSearch() {
   const handleSearch = async () => {
 
     const filters : Filters = {
-      pageCornersFolded: foldedPageCorners.text === 'YES' ? true : false,
+      pageCornersFolded: foldedPageCorners.value == 1 ? true : false,
       prices: fromPrice !== -1 && toPrice !== -1 ? [fromPrice, toPrice] : fromPrice !== -1 ? [fromPrice] : toPrice !== -1 ? [toPrice] : undefined,
       isAbove: fromPrice !== -1 && toPrice === -1 ? true : false,
       title: bookTitle !== "" ? bookTitle : undefined,
@@ -61,7 +61,7 @@ export default function AdvancedSearch() {
       //hasPictures: false,
       courseSubject: courseSubject !== "" ? courseSubject : undefined,
       courseNumber: courseNumber !== 0 ? courseNumber : undefined,
-      pagesAnnotated: annotatedPages.text === 'YES' ? true : false
+      pagesAnnotated: annotatedPages.value == 1 ? true : false
     }
     console.log(filters);
     const results = await new BookController().advancedSearch(filters);
@@ -186,8 +186,8 @@ export default function AdvancedSearch() {
               textColor="primary"
               onChange={handleAnnotationChange}
             >
-              <Tab label="Yes" value={0} />
-              <Tab label="No" value={1} />
+              <Tab label="Yes" value={1} />
+              <Tab label="No" value={0} />
             </Tabs>
           </Paper>
         </div>
@@ -202,8 +202,8 @@ export default function AdvancedSearch() {
               textColor="primary"
               onChange={handleFoldedChange}
             >
-              <Tab label="Yes" value={0} />
-              <Tab label="No" value={1} />
+              <Tab label="Yes" value={1} />
+              <Tab label="No" value={0} />
             </Tabs>
           </Paper>
         </div>
@@ -220,8 +220,8 @@ export default function AdvancedSearch() {
             }
           >
             <option aria-label="None" value="" />
-            <option value={"Concordia"}>Concordia University</option>
-            <option value={"McGill"}>McGill University</option>
+            <option value={"Concordia University"}>Concordia University</option>
+            <option value={"McGill University"}>McGill University</option>
             <option value={"UdeM"}>Université de Montréal</option>
             <option value={"Polytechnique"}>Polytechnique Montréal</option>
             <option value={"ÉTS"}>ÉTS</option>

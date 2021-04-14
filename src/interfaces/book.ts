@@ -13,6 +13,8 @@ interface Book {
     pagesAnnotated: boolean;
     university: string;
     images: string[];
+    email: string;
+    phone: string;
   }
   
   export type { Book };
