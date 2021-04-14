@@ -114,27 +114,20 @@
           border-bottom: none;
         }
 
-        &__search {
-          th {
-            padding-top: 10px;
-            padding-bottom: 0px;
-            border-bottom: none;
-          }
+        .search {
+          border: 1px solid var(--border);
+          border-radius: 5px;
+          min-height: 40px;
+          width: 85%;
+          margin-top: 1%;
+          margin-left: 1%;
+          margin-bottom: 2%;
 
-          .search {
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            min-height: 40px;
-            width: 85%;
-            margin-top: 1%;
-            margin-left: 1%;
-            margin-bottom: 2%;
-
-            svg {
-              margin: 0 5px 0 5px;
-            }
+          svg {
+            margin: 0 5px 0 5px;
           }
         }
+
 
         &__filter {
           display: flex;
@@ -144,15 +137,16 @@
           label {
             padding-right: 10px;
           }
+        }
 
-          .advanced__search__button {
-            margin-bottom: 1%;
-            margin-left: 1%;
-            text-transform: none;
-            color: grey;
-          }
+        .advanced__search__button {
+          margin-bottom: 1%;
+          margin-left: 1%;
+          text-transform: none;
+          color: grey;
         }
       }
+
 
       &__tr {
         @media (min-width: 768px) {
@@ -179,25 +173,17 @@
 
       tbody tr {
         height: 50px;
-
-        .search__buttons {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 24px;
-          margin-left: 35%;
-          margin-right: 5%;
-        }
       }
     }
+  }
 
-    .search__buttons {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      margin-left: 5%;
-      margin-right: 5%;
-    }
+
+  .search__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    margin-left: 5%;
+    margin-right: 5%;
   }
 }
