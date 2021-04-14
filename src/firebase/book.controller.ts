@@ -1,6 +1,7 @@
 import { Book } from "../interfaces/book";
 import { Filters } from "../interfaces/filters";
 import { db, storage } from "./firebase";
+import { v4 as uuidv4 } from 'uuid';
 
 class BookController {
   books = new Map<string, Book>();
@@ -11,25 +12,27 @@ class BookController {
 
     const storageRef = storage.ref();
 
+    const imgName = uuidv4() + "#" + imageFile.name;
+
     return new Promise(function (resolve, reject) {
-      const task = storageRef.child(imageFile.name).put(imageFile);
+      const task = storageRef.child(imgName).put(imageFile);
 
       task.on(
         "state_changed",
         function progress(snapshot) {
           const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Uploading file with name ", imageFile.name, " | Progress: ", percentage, "%");
+          console.log("Uploading file with name ", imgName, " | Progress: ", percentage, "%");
         },
 
         function error(err) {
-          console.log("Error uploading file with name ", imageFile.name, " Error message: ", err);
+          console.log("Error uploading file with name ", imgName, " Error message: ", err);
           reject(err);
         },
 
         async function complete() {
           //The getDownloadURL returns a promise and it is resolved to get the image url.
           const imageURL = await task.snapshot.ref.getDownloadURL();
-          console.log("Successfully uploaded file with name ", imageFile.name, " | Image available at URL: \" ", imageURL, "\"");
+          console.log("Successfully uploaded file with name ", imgName, " | Image available at URL: \" ", imageURL, "\"");
           resolve(imageURL);
         }
       );
