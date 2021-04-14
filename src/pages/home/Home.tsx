@@ -99,9 +99,10 @@ export const Home = () => {
   const keysOnly = books === undefined ? null : Array.from(books?.keys());
 
   useEffect(() => {
-    console.log("books size is: ");
-    console.log(books?.size);
+    console.log("books is: ");
+    console.log(books);
     books?.size === 0 ? setAdvancedSearchBooks(undefined) : setAdvancedSearchBooks(location.state);
+    console.log("Advanced books is: ");
     console.log(advancedSearchBooks);
 
     window.history.replaceState({}, document.title);
