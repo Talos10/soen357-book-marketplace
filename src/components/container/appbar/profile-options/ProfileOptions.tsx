@@ -9,7 +9,8 @@ interface Props {
 }
 
 export default function ProfileOptions({ setProfileOption }: Props) {
-  const name = localStorage.getItem('name');
+  //const name = localStorage.getItem('name');
+  const name = "Guest";
 
   const closeModal = () => {
     setProfileOption(false);
