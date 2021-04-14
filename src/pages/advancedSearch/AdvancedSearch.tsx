@@ -11,6 +11,10 @@ import Tab from '@material-ui/core/Tab';
 import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
 import Select from '@material-ui/core/Select';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Filters } from '../../interfaces/filters';
@@ -28,17 +32,21 @@ export default function AdvancedSearch() {
   const [year, setYear] = useState(0);
   const [fromPrice, setFromPrice] = useState(-1);
   const [toPrice, setToPrice] = useState(-1);
-  const [overallCondition, setOverallCondition] = useState({ value: 0, text: "AS NEW" });
-  const [annotatedPages, setAnnotatedPages] = useState({ value: 1, text: "NO" });
-  const [foldedPageCorners, setFoldedPageCorners] = useState({ value: 1, text: "NO" });
+  const [overallCondition, setOverallCondition] = useState({ asNew: false,
+    veryGood: false,
+    good: false,
+    fair: false,
+    poor: false});
+  const [annotatedPages, setAnnotatedPages] = useState({value: 2, text: "EITHER"});
+  const [foldedPageCorners, setFoldedPageCorners] = useState({value: 2, text: "EITHER"});
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
   const [courseNumber, setCourseNumber] = useState(0);
   const history = useHistory();
 
-  const handleConditionChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    const selection = event.target as HTMLElement;
-    setOverallCondition({ value: newValue, text: selection.innerText });
+
+  const handleConditionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOverallCondition({ ...overallCondition, [event.target.name]: event.target.checked });
   };
 
   const handleAnnotationChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -51,22 +59,48 @@ export default function AdvancedSearch() {
     setFoldedPageCorners({ value: newValue, text: selection.innerText });
   };
 
+  const determineConditionFilter = () => {
+    const conditions = [];
+    if (overallCondition.asNew) {
+      conditions.push("AS NEW");
+    }
+    if (overallCondition.veryGood) {
+      conditions.push("VERY GOOD");
+    }
+    if (overallCondition.good) {
+      conditions.push("GOOD");
+    }
+    if (overallCondition.fair) {
+      conditions.push("FAIR");
+    }
+    if (overallCondition.poor) {
+      conditions.push("POOR");
+    }
+    if (conditions.length === 0) {
+      return undefined;
+    }
+    else {
+      return conditions;
+    }
+  }
+
   const handleSearch = async () => {
 
-    const filters: Filters = {
-      pageCornersFolded: foldedPageCorners.text === 'YES' ? true : false,
-      prices: fromPrice !== -1 && toPrice !== -1 ? [fromPrice, toPrice] : fromPrice !== -1 ? [fromPrice] : toPrice !== -1 ? [toPrice] : undefined,
-      isAbove: fromPrice !== -1 && toPrice === -1 ? true : false,
+
+    const filters : Filters = {
       title: bookTitle !== "" ? bookTitle : undefined,
       author: author !== "" ? author : undefined,
-      //ISBN: isbn,
+      ISBN: isbn !== "" ? isbn : undefined,
       year: year !== 0 ? year : undefined,
-      conditions: [overallCondition.text],
+      prices: fromPrice !== -1 && toPrice !== -1 ? [fromPrice, toPrice] : fromPrice !== -1 ? [fromPrice] : toPrice !== -1 ? [toPrice] : undefined,
+      isAbove: fromPrice !== -1 && toPrice === -1 ? true : false,
+      conditions: determineConditionFilter(),
+      pagesAnnotated: annotatedPages.text === 'EITHER' ? undefined : annotatedPages.text === 'YES' ? true : false,
+      pageCornersFolded: foldedPageCorners.text === 'EITHER' ? undefined : foldedPageCorners.text === 'YES' ? true : false,
       university: schoolName !== "" ? schoolName : undefined,
-      //hasPictures: false,
       courseSubject: courseSubject !== "" ? courseSubject : undefined,
-      courseNumber: courseNumber !== 0 ? courseNumber : undefined,
-      pagesAnnotated: annotatedPages.text === 'YES' ? true : false
+      courseNumber: courseNumber !== 0 ? courseNumber : undefined
+      //hasPictures: false,
     }
     console.log("filters: " + filters);
     const advancedBooks = await new BookController().advancedSearch(filters);
@@ -169,20 +203,31 @@ export default function AdvancedSearch() {
         <h4>Book Condition</h4>
         <div className='book__condition__form'>
           <label htmlFor="event-title">Overall Condition:</label>
-          <Paper square className='overall__condition'>
-            <Tabs
-              value={overallCondition.value}
-              indicatorColor="primary"
-              textColor="primary"
-              onChange={handleConditionChange}
-            >
-              <Tab label="As New" value={0} />
-              <Tab label="Very Good" value={1} />
-              <Tab label="Good" value={2} />
-              <Tab label="Fair" value={3} />
-              <Tab label="Poor" value={4} />
-            </Tabs>
-          </Paper>
+          <FormControl required component="fieldset" className='overall__condition'>
+            <FormLabel component="legend">You can pick more than one</FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={overallCondition.asNew} onChange={handleConditionChange} name="asNew" />}
+                label="As New"
+              />
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={overallCondition.veryGood} onChange={handleConditionChange} name="veryGood" />}
+                label="Very Good"
+              />
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={overallCondition.good} onChange={handleConditionChange} name="good" />}
+                label="Good"
+              />
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={overallCondition.fair} onChange={handleConditionChange} name="fair" />}
+                label="Fair"
+              />
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={overallCondition.poor} onChange={handleConditionChange} name="poor" />}
+                label="Poor"
+              />
+            </FormGroup>
+          </FormControl>
         </div>
         <br />
         <br />
@@ -197,6 +242,7 @@ export default function AdvancedSearch() {
             >
               <Tab label="Yes" value={0} />
               <Tab label="No" value={1} />
+              <Tab label="Either" value={2} />
             </Tabs>
           </Paper>
         </div>
@@ -213,6 +259,7 @@ export default function AdvancedSearch() {
             >
               <Tab label="Yes" value={0} />
               <Tab label="No" value={1} />
+              <Tab label="Either" value={2} />
             </Tabs>
           </Paper>
         </div>
@@ -230,8 +277,8 @@ export default function AdvancedSearch() {
             }
           >
             <option aria-label="None" value="" />
-            <option value={"Concordia"}>Concordia University</option>
-            <option value={"McGill"}>McGill University</option>
+            <option value={"Concordia University"}>Concordia University</option>
+            <option value={"McGill University"}>McGill University</option>
             <option value={"UdeM"}>Université de Montréal</option>
             <option value={"Polytechnique"}>Polytechnique Montréal</option>
             <option value={"ÉTS"}>ÉTS</option>
