@@ -40,6 +40,10 @@
     .clearFix {
       clear:both;
       align-items: center;
+      
+      &__div {
+        margin-bottom: 5%;
+      }
     }  
   }
   

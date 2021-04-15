@@ -60,6 +60,11 @@ export default function BookInfo() {
                     <div><b>Page annotated: </b>{book.pagesAnnotated ? "YES" : "NO"}</div>
                 </Card>
             </div>
+            <Card className="clearFix">
+                <div className="title">Seller Information</div>
+                <div className="clearFix__div"><b>Email: </b>{book.email}</div>
+                <div><b>Phone number: </b>{book.phone}</div>
+            </Card>
         </div>
     );
 }
