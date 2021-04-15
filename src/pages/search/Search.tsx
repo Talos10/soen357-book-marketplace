@@ -189,8 +189,8 @@ export const SearchPage = () => {
         <div>
           {<h4 className="title">
             {books !== undefined ?
-              books?.size === 0 || books?.size === 1 ? <div>{books?.size} Book Found!</div> : <div>{books?.size} Books Found!</div> :
-              advancedSearchBooks?.size === 0 || advancedSearchBooks?.size === 1 ? <div>{advancedSearchBooks?.size} Book Found!</div> : <div>{advancedSearchBooks?.size} Books Found!</div>
+              books?.size === 1 ? <div>{books?.size} Book Found!</div> : <div>{books?.size} Books Found!</div> :
+              advancedSearchBooks?.size === 1 ? <div>{advancedSearchBooks?.size} Book Found!</div> : <div>{advancedSearchBooks?.size} Books Found!</div>
             }
           </h4>}
           {books?.size !== 0 ? <Card className="summary">
