@@ -30,7 +30,7 @@ export default function Login() {
   };
 
   const handleLoginSuccess = () => {
-    //history.push('/home');
+    //history.push('/search');
   };
 
   return (
@@ -87,7 +87,7 @@ export default function Login() {
                   color="primary"
                   variant="outlined"
                   component={Link}
-                  to="/home">
+                  to="/search">
                   Login as Guest
                 </Button>
               </div>

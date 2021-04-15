@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { FaArrowCircleUp } from 'react-icons/fa';
 import { Card, Progress, ReturnButton } from '../../components';
-import './Home.scss';
+import './Search.scss';
 import { Search } from '@material-ui/icons';
 import bookLogo from '../../assets/logo.png';
 import BookController from '../../firebase/book.controller';
@@ -22,7 +22,7 @@ import BookRow from './book-row/BookRow';
 
 let books: Map<string, Book> | undefined = undefined;
 
-export const Home = () => {
+export const SearchPage = () => {
 
   const [searchType, setSearchType] = useState<string>('title');
   const [tableClicked, setTableClicked] = useState<boolean>(false);
@@ -127,13 +127,13 @@ export const Home = () => {
   return false ? (
     <Progress />
   ) : (
-    <div className="Home">
+    <div className="SearchPage">
       <FaArrowCircleUp
         className="scrollTop"
         onClick={scrollTop}
         style={{ height: 40, display: showScroll ? 'flex' : 'none' }}
       />
-      <div className="home__top">
+      <div className="search_page__top">
         <div className="logo">
           <img src={bookLogo}></img>
         </div>
@@ -189,8 +189,8 @@ export const Home = () => {
         <div>
           {<h4 className="title">
             {books !== undefined ?
-              books?.size === 0 || books?.size === 1 ? <div>{books?.size} Book Found!</div> : <div>{books?.size} Books Found!</div> :
-              advancedSearchBooks?.size === 0 || advancedSearchBooks?.size === 1 ? <div>{advancedSearchBooks?.size} Book Found!</div> : <div>{advancedSearchBooks?.size} Books Found!</div>
+              books?.size === 1 ? <div>{books?.size} Book Found!</div> : <div>{books?.size} Books Found!</div> :
+              advancedSearchBooks?.size === 1 ? <div>{advancedSearchBooks?.size} Book Found!</div> : <div>{advancedSearchBooks?.size} Books Found!</div>
             }
           </h4>}
           {books?.size !== 0 ? <Card className="summary">
@@ -220,4 +220,4 @@ export const Home = () => {
   )
 };
 
-export default Home;
+export default SearchPage;

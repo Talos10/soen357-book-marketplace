@@ -1,15 +1,10 @@
-import { Dispatch, useEffect } from 'react';
+import React, { Dispatch, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import {
-  Home,
-  Widgets,
   SupervisorAccount,
-  CalendarToday,
-  Build,
-  Timeline,
-  QueryBuilder,
-  CollectionsBookmark
+  CollectionsBookmark,
+  Search
 } from '@material-ui/icons';
 
 import styles from './Sidenav.module.css';
@@ -35,11 +30,11 @@ export default function Sidenav({ showSidenav, toggleSidenav }: Props) {
 
         <div className="Sidenav__button">
           <Button
-            color={location.pathname.indexOf('home') === 0 ? 'primary' : 'default'}
+            color={location.pathname.indexOf('/search') === 0 ? 'primary' : 'default'}
             component={Link}
-            to="/home">
-            <Home style={{ paddingRight: 16 }} />
-            Home
+            to="/search">
+            <Search style={{ paddingRight: 16 }} />
+            Search
           </Button>
         </div>
 

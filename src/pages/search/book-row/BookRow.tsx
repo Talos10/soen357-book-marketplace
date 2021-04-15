@@ -14,7 +14,7 @@ export default function BookTable({ props, book }: Props) {
 
     return (
         <TableRow
-            onClick={() => history.push(`/home/book-info/${id}`)}
+            onClick={() => history.push(`/search/book-info/${id}`)}
         >
             <TableCell>
                 <img className="image" src={book?.images[0]} alt="Image has been deleted" />

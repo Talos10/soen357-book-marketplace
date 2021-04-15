@@ -38,7 +38,7 @@ export default function BookInfo() {
         <div className="BookInfo">
             <div className="top">
                 <div className="top__left">
-                    <ReturnButton to="/home" />
+                    <ReturnButton to="/search" />
                 </div>
             </div>
             <div>
