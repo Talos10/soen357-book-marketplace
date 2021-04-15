@@ -53,11 +53,11 @@ export default function BookInfo() {
                     <div><b>Title: </b>{book.title}</div>
                     <div><b>University: </b>{book.university}</div>
                     <div><b>Year: </b>{book.year}</div>
-                    <div><b>Price: </b>{book.price}</div>
+                    <div><b>Price:</b> ${book.price}</div>
                     <div><b>Book condition: </b>{book.condition}</div>
                     <div><b>Course: </b>{book.courseSubject + " " + book.courseNumber}</div>
-                    <div>{book.pageCornersFolded ? <b>Pages are folded</b> : <b>Pages are not folded</b>}</div>
-                    <div>{book.pagesAnnotated ? <b>Pages are annotated</b> : <b>Pages are not annotated</b>}</div>
+                    <div><b>Page corners folded: </b>{book.pageCornersFolded ? "YES" : "NO"}</div>
+                    <div><b>Page annotated: </b>{book.pagesAnnotated ? "YES" : "NO"}</div>
                 </Card>
             </div>
         </div>

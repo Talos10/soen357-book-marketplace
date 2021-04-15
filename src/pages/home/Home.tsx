@@ -189,8 +189,8 @@ export const Home = () => {
         <div>
           {<h4 className="title">
             {books !== undefined ?
-              books?.size === 0 || books?.size === 1 ? <div>{books?.size} book found !</div> : <div>{books?.size} books found !</div> :
-              advancedSearchBooks?.size === 0 || advancedSearchBooks?.size === 1 ? <div>{advancedSearchBooks?.size} book found !</div> : <div>{advancedSearchBooks?.size} books found !</div>
+              books?.size === 0 || books?.size === 1 ? <div>{books?.size} Book Found!</div> : <div>{books?.size} Books Found!</div> :
+              advancedSearchBooks?.size === 0 || advancedSearchBooks?.size === 1 ? <div>{advancedSearchBooks?.size} Book Found!</div> : <div>{advancedSearchBooks?.size} Books Found!</div>
             }
           </h4>}
           {books?.size !== 0 ? <Card className="summary">
@@ -198,8 +198,8 @@ export const Home = () => {
               <TableHead>
                 <TableRow className="table__tr">
                   <TableCell>
-                    Book
-                    </TableCell>
+                    <div></div>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

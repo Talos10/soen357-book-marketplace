@@ -55,6 +55,8 @@ tr:hover {
   --control-button-opacity: 0.5;
   --control-button-hover-opacity: 0.75;
   --control-button-background: transparent;
+  --control-bullet-color: #848d9a;
+  --control-bullet-active-color: #24AE4D;
   --transition-bezier: cubic-bezier(0.5, 0.075, 0.25, 0.95);
   --slider-transition-duration: 200ms;
   --organic-arrow-color: #000000;
