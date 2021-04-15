@@ -35,7 +35,8 @@ body.sidenav-open {
         }
 
         .MuiButton-label {
-          color: inherit;
+          //color: inherit;
+          color: var(--sidenav-text);
         }
       }
     }
