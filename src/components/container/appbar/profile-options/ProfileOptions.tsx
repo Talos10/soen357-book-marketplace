@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { Button, Portal } from '@material-ui/core';
-
+import { useHistory } from 'react-router-dom';
 import ProfileIcon from '../../../../assets/profile-icon.jpg';
 import './ProfileOptions.scss';
 
@@ -9,13 +9,17 @@ interface Props {
 }
 
 export default function ProfileOptions({ setProfileOption }: Props) {
-  const name = localStorage.getItem('name');
+  //const name = localStorage.getItem('name');
+  const name = "Guest";
+
+  const history = useHistory();
 
   const closeModal = () => {
     setProfileOption(false);
   };
 
   const manageUser = () => {
+    history.push('/')
   };
 
   return (
