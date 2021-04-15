@@ -20,6 +20,10 @@ import { useState } from 'react';
 import { Filters } from '../../interfaces/filters';
 import BookController from '../../firebase/book.controller';
 import './AdvancedSearch.scss';
+import { Book } from '../../interfaces/book';
+import { useHistory } from 'react-router-dom';
+
+let results: Map<string, Book> = new Map<string, Book>([]);
 
 export default function AdvancedSearch() {
   const [bookTitle, setBookTitle] = useState("");
@@ -38,6 +42,7 @@ export default function AdvancedSearch() {
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
   const [courseNumber, setCourseNumber] = useState(0);
+  const history = useHistory();
 
 
   const handleConditionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,12 +51,12 @@ export default function AdvancedSearch() {
 
   const handleAnnotationChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
-    setAnnotatedPages({value: newValue, text: selection.innerText});
+    setAnnotatedPages({ value: newValue, text: selection.innerText });
   };
 
   const handleFoldedChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
-    setFoldedPageCorners({value: newValue, text: selection.innerText});
+    setFoldedPageCorners({ value: newValue, text: selection.innerText });
   };
 
   const determineConditionFilter = () => {
@@ -81,6 +86,7 @@ export default function AdvancedSearch() {
 
   const handleSearch = async () => {
 
+
     const filters : Filters = {
       title: bookTitle !== "" ? bookTitle : undefined,
       author: author !== "" ? author : undefined,
@@ -96,9 +102,13 @@ export default function AdvancedSearch() {
       courseNumber: courseNumber !== 0 ? courseNumber : undefined
       //hasPictures: false,
     }
-    console.log(filters);
-    const results = await new BookController().advancedSearch(filters);
-    console.log("Advanced Search:", results);
+    console.log("filters: " + filters);
+    const advancedBooks = await new BookController().advancedSearch(filters);
+    console.log("Advanced Search:", advancedBooks);
+    history.push({
+      pathname:"/home",
+      state: advancedBooks
+    })
   }
 
   return (
@@ -219,8 +229,8 @@ export default function AdvancedSearch() {
             </FormGroup>
           </FormControl>
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div className='book__condition__form'>
           <label htmlFor="event-title">Annotated Pages:</label>
           <Paper square className='annotated__pages'>
@@ -236,8 +246,8 @@ export default function AdvancedSearch() {
             </Tabs>
           </Paper>
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div className='book__condition__form'>
           <label htmlFor="event-title">Folded Page Corners:</label>
           <Paper square className='folded__page__corners'>
@@ -262,7 +272,8 @@ export default function AdvancedSearch() {
             native
             value={schoolName}
             onChange={(event) => {
-              setSchoolName(event.target.value as string);}
+              setSchoolName(event.target.value as string);
+            }
             }
           >
             <option aria-label="None" value="" />
@@ -274,7 +285,7 @@ export default function AdvancedSearch() {
             <option value={"UQAM"}>Université du Québec à Montréal</option>
           </Select>
         </FormControl>
-        <label className='text__input' htmlFor="school-course-subject">Course Subject  <Tooltip title="For example, if you are taking course COMP352, the course subject is COMP" placement="right-start"><InfoIcon/></Tooltip></label>
+        <label className='text__input' htmlFor="school-course-subject">Course Subject  <Tooltip title="For example, if you are taking course COMP352, the course subject is COMP" placement="right-start"><InfoIcon /></Tooltip></label>
         <TextField
           type="string"
           id="school-course-subject"
@@ -284,10 +295,11 @@ export default function AdvancedSearch() {
           fullWidth
           value={courseSubject}
           onChange={(event) => {
-            setCourseSubject(event.target.value as string);}
+            setCourseSubject(event.target.value as string);
+          }
           }
         />
-        <label className='text__input' htmlFor="school-course-number">Course Number  <Tooltip title="For example, if you are taking course COMP352, the course number is 352" placement="right-start"><InfoIcon/></Tooltip></label>
+        <label className='text__input' htmlFor="school-course-number">Course Number  <Tooltip title="For example, if you are taking course COMP352, the course number is 352" placement="right-start"><InfoIcon /></Tooltip></label>
         <TextField
           type="number"
           id="school-course-number"
@@ -305,7 +317,7 @@ export default function AdvancedSearch() {
         variant="contained"
         color="primary"
         size="large"
-        onClick={() => handleSearch()}
+        onClick = {() => handleSearch()}
       >
         Search
       </Button>

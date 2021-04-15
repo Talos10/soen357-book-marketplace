@@ -1,0 +1,49 @@
+.BookInfo {
+    max-width: 900px;
+    margin: 0 auto;
+  
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+  
+      &__left {
+        display: flex;
+        align-items: center;
+  
+        & > * {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .image {
+      width: 41%;
+      margin-right: 2%;
+      float: left;
+      height: 450px;
+    }
+    .description {
+      width: 46%;
+      float: right;
+      height: 450px;
+
+      div {
+        padding: 2%;
+      }
+    }
+
+    .info {
+      width: 100%;
+    }
+    .clearFix {
+      clear:both;
+      align-items: center;
+      
+      &__div {
+        margin-bottom: 5%;
+      }
+    }  
+  }
+  

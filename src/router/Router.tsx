@@ -3,6 +3,7 @@ import {
   Login,
   Home,
   AdvancedSearch,
+  BookInfo,
   Sell
 } from '../pages';
 import Guard from './Guard';
@@ -17,6 +18,7 @@ export default function Router() {
         <Container>
           {/* Home */}
           <Guard path="/home" allowIf={true} component={Home} exact />
+          <Guard path="/home/book-info/:id" allowIf={true} component={BookInfo} exact />
 
           {/* Advanced Search */}
           <Guard path="/advanced-search" allowIf={true} component={AdvancedSearch} exact />
