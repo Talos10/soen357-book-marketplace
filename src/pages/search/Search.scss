@@ -1,4 +1,4 @@
-.Home {
+.SearchPage {
 
   .logo {
     display: flex;
@@ -41,7 +41,7 @@
     }
   }
 
-  .home__top {
+  .search_page__top {
     display: flex;
     justify-content: space-between;
 
@@ -85,7 +85,7 @@
     }
   }
 
-  .home__top__buttons> :not(:last-child) {
+  .search_page__top__buttons> :not(:last-child) {
     margin-right: 10px;
   }
 

@@ -106,7 +106,7 @@ export default function AdvancedSearch() {
     const advancedBooks = await new BookController().advancedSearch(filters);
     console.log("Advanced Search:", advancedBooks);
     history.push({
-      pathname:"/home",
+      pathname:"/search",
       state: advancedBooks
     })
   }
@@ -327,7 +327,7 @@ export default function AdvancedSearch() {
         color="primary"
         size="large"
         component={Link}
-        to="/home"
+        to="/search"
       >
         Discard
       </Button>

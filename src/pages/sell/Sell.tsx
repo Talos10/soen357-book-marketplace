@@ -79,7 +79,7 @@ export const Sell = () => {
     var addedBookId = await bookController.addBook(postedBook);
     console.log("Posted book ID: ",addedBookId);
 
-    history.push("/home");
+    history.push("/search");
 
   };
 
@@ -406,7 +406,7 @@ export const Sell = () => {
           color="primary"
           size="large"
           component={Link}
-          to="/home"
+          to="/search"
         >
           Discard
         </Button>
