@@ -63,6 +63,7 @@ class BookController {
       university: book.university,
       email: book.email,
       phone: book.phone,
+      description: book.description,
       images: book.images
     })
     .then((docRef) => {
