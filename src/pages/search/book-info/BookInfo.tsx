@@ -61,8 +61,12 @@ export default function BookInfo() {
                 </Card>
             </div>
             <Card className="clearFix">
+                    <div className="title">Additional Information</div>
+                    <div className="break-text">{book.description}</div>
+            </Card>
+            <Card>
                 <div className="title">Seller Information</div>
-                <div className="clearFix__div"><b>Email: </b>{book.email}</div>
+                <div className="space"><b>Email: </b>{book.email}</div>
                 <div><b>Phone number: </b>{book.phone}</div>
             </Card>
         </div>
