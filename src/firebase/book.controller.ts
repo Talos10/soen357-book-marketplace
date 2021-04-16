@@ -45,6 +45,9 @@ class BookController {
     var titleArrayProcessed = this.prepareSearchArray(book.title.trim(), 2, ["and", "and ", "the", "the "]);
     var authorArrayProcessed = this.prepareSearchArray(book.author.trim(), 0, []);
 
+    // Add default book picture.
+    if (book.images.length < 1) book.images = ["https://firebasestorage.googleapis.com/v0/b/soen-357-book-marketplace.appspot.com/o/default-book.png?alt=media&token=e548bd95-8ca7-4d89-9628-a832e73500ba"];
+
     console.log("Adding the following book to the db: ", book, " Epoch time: ", Date.now());
 
     await db.collection("books").add({
