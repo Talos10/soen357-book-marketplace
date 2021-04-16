@@ -113,6 +113,7 @@ export const Sell = () => {
           university: schoolName as string,
           courseSubject: courseSubject as string,
           courseNumber: courseNumber as number,
+          description: "", // MODIFY THIS!!!!
           email: email as string,
           phone:phone as string
         } as Book;
