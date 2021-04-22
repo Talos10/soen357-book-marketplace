@@ -41,6 +41,7 @@ export const Sell = () => {
   const [schoolName, setSchoolName] = useState("");
   const [courseSubject, setCourseSubject] = useState("");
   const [courseNumber, setCourseNumber] = useState(0);
+  const [description, setSetDescription] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -113,6 +114,7 @@ export const Sell = () => {
           university: schoolName as string,
           courseSubject: courseSubject as string,
           courseNumber: courseNumber as number,
+          description: description as string,
           email: email as string,
           phone:phone as string
         } as Book;
@@ -359,6 +361,23 @@ export const Sell = () => {
             onChange={(event) => {
               setCourseNumber(Number(event.target.value))
             }}
+          />
+        </Card>
+
+        <Card className='form__container'>
+          <h4>Additional Information <Tooltip title="If you want to give additional information, write it here. Otherwise, leave it blank." placement="right-start"><InfoIcon /></Tooltip></h4>
+          <TextField
+            type="string"
+            id="description"
+            name="description"
+            variant="outlined"
+            fullWidth
+            multiline
+            value={description}
+            onChange={(event) => {
+              setSetDescription(event.target.value as string);
+            }
+            }
           />
         </Card>
 

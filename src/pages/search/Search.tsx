@@ -53,16 +53,6 @@ export const SearchPage = () => {
     books = await getAllBooksByISBN();
   };
 
-  const advancedSearch = async (filters: Filters) => {
-    const advancedSearch = () => bookController.advancedSearch(filters);
-    books = await advancedSearch();
-  };
-
-  const addBook = async (book: Book) => {
-    const addBook = () => bookController.addBook(book);
-    addedBookId = await addBook();
-  };
-
   const executeSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
