@@ -12,6 +12,7 @@ export default function BookTable({ props, book }: Props) {
     const history = useHistory();
     const id = props;
 
+    //rendered HTML
     return (
         <TableRow
             onClick={() => history.push(`/search/book-info/${id}`)}

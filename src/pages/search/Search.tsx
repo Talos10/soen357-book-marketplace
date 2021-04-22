@@ -30,29 +30,31 @@ export const SearchPage = () => {
   const bookController = new BookController();
   let location = useLocation<Map<string, Book> | undefined>();
   const [advancedSearchBooks, setAdvancedSearchBooks] = useState<Map<string, Book>>();
-  console.log(books);
 
-  var addedBookId: string;
-
+  //change the filter type when the user clicks on the different radio buttons
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchType(event.target.value);
   };
 
+  //initializes the books variable with a map of books filtered by the title
   const searchByTitle = async (searchString: string) => {
     const getAllBooksByTitle = () => bookController.getBooksByTitle(searchString);
     books = await getAllBooksByTitle();
   };
 
+  //initializes the books variable with a map of books filtered by the author
   const searchByAuthor = async (searchString: string) => {
     const getAllBooksByAuthor = () => bookController.getBooksByAuthor(searchString);
     books = await getAllBooksByAuthor();
   };
 
+  //initializes the books variable with a map of books filtered by the ISBN
   const searchByISBN = async (searchString: string) => {
     const getAllBooksByISBN = () => bookController.getBooksByISBN(searchString);
     books = await getAllBooksByISBN();
   };
 
+  //is executed when the user clicks the search button
   const executeSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -71,12 +73,10 @@ export const SearchPage = () => {
         await searchByISBN(searchString.trim());
         break;
     }
-
-    console.log("Here are the books");
-    console.log(books);
     setTableClicked(true);
   };
 
+  //parse the form
   const parseSearch = (form: HTMLFormElement) => {
     const data = new FormData(form);
     return {
@@ -88,12 +88,9 @@ export const SearchPage = () => {
   const advancedKeysOnly = advancedSearchBooks !== undefined ? Array.from(advancedSearchBooks.keys()) : null;
   const keysOnly = books === undefined ? null : Array.from(books?.keys());
 
+  //loads first
   useEffect(() => {
-    console.log("books is: ");
-    console.log(books);
     books?.size === 0 ? setAdvancedSearchBooks(undefined) : setAdvancedSearchBooks(location.state);
-    console.log("Advanced books is: ");
-    console.log(advancedSearchBooks);
 
     window.history.replaceState({}, document.title);
     window.addEventListener('scroll', checkScrollTop)
@@ -102,6 +99,7 @@ export const SearchPage = () => {
     }
   })
 
+  //methods used to bring the user back to the top if the use is at the bottom of the listed books 
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 400) {
       setShowScroll(true)
@@ -109,11 +107,12 @@ export const SearchPage = () => {
       setShowScroll(false)
     }
   };
-
+  
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  //rendered HTML
   return false ? (
     <Progress />
   ) : (

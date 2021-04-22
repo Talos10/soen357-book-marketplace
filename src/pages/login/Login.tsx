@@ -37,7 +37,7 @@ export default function Login() {
     <div className="Login">
 
       <div className="login-card">
-        <p className="login-card__title lead">Book Marketplace</p>
+        <p className="login-card__title lead">University Book Bazaar</p>
         <p className="login-card__header h4">Log In</p>
 
         <form onSubmit={tryLogin} className="login-card__form">

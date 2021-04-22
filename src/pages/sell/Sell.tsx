@@ -25,7 +25,7 @@ import { useHistory } from 'react-router-dom';
 
 export const Sell = () => {
 
-  const maxImages = 4;
+  const maxImages = 4; //max number of images a user can upload
   const history = useHistory();
   const bookController = new BookController();
   
@@ -45,45 +45,46 @@ export const Sell = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
+  //changes the condition variable dynamically when the user selects another option
   const handleConditionChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
     setOverallCondition({ value: newValue, text: selection.innerText });
   };
 
+  //changes the annotated pages variable dynamically when the user selects another option
   const handleAnnotationChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
     setAnnotatedPages({ value: newValue, text: selection.innerText });
   };
 
+  //changes the folded corners variable dynamically when the user selects another option
   const handleFoldedChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
     setFoldedPageCorners({ value: newValue, text: selection.innerText });
   };
 
+  //when uploading an image, add it to the list of images
   const onImageChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
 
+  //triggered when the user presses the Post button
   const postBook = async (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const postedBook: Book = await parseBook(form) as unknown as Book;
 
-    console.log("Here's the postedBook");
-    console.log(postedBook);
-
     var addedBookId = await bookController.addBook(postedBook);
-    console.log("Posted book ID: ",addedBookId);
 
     history.push("/search");
 
   };
 
+  //parse the form
   const parseBook = async (form: HTMLFormElement) => {
     const data = new FormData(form);
 
@@ -97,8 +98,8 @@ export const Sell = () => {
     //The Promise.all() will stop the execution, until all of the promises are resolved.
     await Promise.all(promises).then((fileURLS)=>{
         //Once all the promises are resolved, you will get the urls in a array.
-        console.log("Here are the firebase urls \n",fileURLS);
 
+        //newly created book object that will be sent to the backend
         bookToPost = {
           title: bookTitle as string,
           titleArray: [],
@@ -124,6 +125,7 @@ export const Sell = () => {
 
   };
 
+  //rendered HTML
   return false ? (
     <Progress />
   ) : (

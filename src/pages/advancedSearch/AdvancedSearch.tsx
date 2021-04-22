@@ -44,21 +44,24 @@ export default function AdvancedSearch() {
   const [courseNumber, setCourseNumber] = useState(0);
   const history = useHistory();
 
-
+  //changes the condition variable dynamically when the user selects another option
   const handleConditionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOverallCondition({ ...overallCondition, [event.target.name]: event.target.checked });
   };
 
+  //changes the annotated pages variable dynamically when the user selects another option
   const handleAnnotationChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
     setAnnotatedPages({ value: newValue, text: selection.innerText });
   };
 
+  //changes the folded corners variable dynamically when the user selects another option
   const handleFoldedChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     const selection = event.target as HTMLElement;
     setFoldedPageCorners({ value: newValue, text: selection.innerText });
   };
 
+  //see what condition the user chose since they can select multiple ones
   const determineConditionFilter = () => {
     const conditions = [];
     if (overallCondition.asNew) {
@@ -84,8 +87,8 @@ export default function AdvancedSearch() {
     }
   }
 
+  //triggered when the user clicks the Search button
   const handleSearch = async () => {
-
 
     const filters : Filters = {
       title: bookTitle !== "" ? bookTitle : undefined,
@@ -102,15 +105,14 @@ export default function AdvancedSearch() {
       courseNumber: courseNumber !== 0 ? courseNumber : undefined
       //hasPictures: false,
     }
-    console.log("filters: " + filters);
     const advancedBooks = await new BookController().advancedSearch(filters);
-    console.log("Advanced Search:", advancedBooks);
     history.push({
       pathname:"/search",
       state: advancedBooks
     })
   }
 
+  //rendered HTML
   return (
     <div className='AdvancedSearch'>
       <Card className="book__info__form">

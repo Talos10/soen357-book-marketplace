@@ -21,18 +21,15 @@ class BookController {
         "state_changed",
         function progress(snapshot) {
           const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Uploading file with name ", imgName, " | Progress: ", percentage, "%");
         },
 
         function error(err) {
-          console.log("Error uploading file with name ", imgName, " Error message: ", err);
           reject(err);
         },
 
         async function complete() {
           //The getDownloadURL returns a promise and it is resolved to get the image url.
           const imageURL = await task.snapshot.ref.getDownloadURL();
-          console.log("Successfully uploaded file with name ", imgName, " | Image available at URL: \" ", imageURL, "\"");
           resolve(imageURL);
         }
       );
@@ -47,8 +44,6 @@ class BookController {
 
     // Add default book picture.
     if (book.images.length < 1) book.images = ["https://firebasestorage.googleapis.com/v0/b/soen-357-book-marketplace.appspot.com/o/default-book.png?alt=media&token=e548bd95-8ca7-4d89-9628-a832e73500ba"];
-
-    console.log("Adding the following book to the db: ", book, " Epoch time: ", Date.now());
 
     await db.collection("books").add({
       title: book.title,
@@ -70,7 +65,6 @@ class BookController {
       images: book.images
     })
     .then((docRef) => {
-        console.log("Document successfully written with ID: ", docRef.id);
         docId = docRef.id;
     })
     .catch((error) => {
@@ -89,13 +83,9 @@ class BookController {
 
     const processedString = inputString.trim().replace(/ +(?= )/g,'');
 
-    console.log("Processed string: ", processedString);
-
     for (let i = 0; i < stringToArray.length; i++) {
       if (stringToArray[i] == " ") pointers.push(i+1); // Find the first char of each word in the string.
     }
-
-    console.log("Array of pointers: ", pointers);
 
     for (let i = 0; i < pointers.length; i++) { // Start at the beginning of every word and go until the end.
       for (let j = 0; j < processedString.substring(pointers[i]).length; j++) {
@@ -124,15 +114,10 @@ class BookController {
   }
 
   public async getAllBooks(): Promise<Map<string, Book>> {
-
-    console.log("Fetching all books! Epoch time: ", Date.now());
-
     return this.resolveQuery(db.collection("books"));
   }
 
   public async getBookById(bookId: string): Promise<Map<string, Book>> {
-
-    console.log("Fetching book by id" , bookId, " ! Epoch time: ", Date.now());
 
     return await db
       .collection("books")
@@ -141,39 +126,29 @@ class BookController {
       .then((doc) => {
         if (doc.data() != undefined) {
           this.books.set(doc.id, doc.data() as Book);
-          console.log("book id: ", doc.id, " => ", doc.data());
         } else {
-          console.log("No book found with id: ", doc.id);
         }
         return this.books;
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
+        console.error("Error getting documents: ", error);
         return Promise.reject(error);
       });
   }
 
   public async getBooksByTitle(title: string): Promise<Map<string, Book>> {
-
-    console.log("Fetching books by title" , title, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("titleArray", "array-contains", title)
     );
   }
 
   public async getBooksByAuthor(author: string): Promise<Map<string, Book>> {
-
-    console.log("Fetching books by author" , author, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("authorArray", "array-contains", author)
     );
   }
 
   public async getBooksByISBN(ISBN: string): Promise<Map<string, Book>> {
-
-    console.log("Fetching book by ISBN" , ISBN, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
       db.collection("books").where("ISBN", "==", ISBN)
@@ -185,7 +160,6 @@ class BookController {
     number: number
   ): Promise<Map<string, Book>> {
 
-    console.log("Fetching books by course (subject = " , subject, " , number = ", number, ")  ! Epoch time: ", Date.now());
     return this.resolveQuery(
       db
         .collection("books")
@@ -198,16 +172,12 @@ class BookController {
     university: string
   ): Promise<Map<string, Book>> {
 
-    console.log("Fetching books by university" , university, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("university", "==", university)
     );
   }
 
   public async advancedSearch(filters: Filters): Promise<Map<string, Book>> {
-
-    console.log("Advanced search started! Epoch time: ", Date.now());
 
     if (filters.title != undefined) {
       await this.getBooksByTitle(filters.title);
@@ -278,8 +248,6 @@ class BookController {
 
   private async getBooksByYear(year: number): Promise<Map<string, Book>> {
 
-    console.log("Fetching books by year" , year, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("year", "==", year)
     );
@@ -288,8 +256,6 @@ class BookController {
   private async getBooksByCourseSubject(
     subject: string
   ): Promise<Map<string, Book>> {
-
-    console.log("Fetching books by course subject" , subject, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
       db.collection("books").where("courseSubject", "==", subject)
@@ -300,8 +266,6 @@ class BookController {
     number: Number
   ): Promise<Map<string, Book>> {
 
-    console.log("Fetching books by course number" , number, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("courseNumber", "==", number)
     );
@@ -309,16 +273,12 @@ class BookController {
 
   private async getBooksAbovePrice(price: number): Promise<Map<string, Book>> {
 
-    console.log("Fetching books above price" , price, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("price", ">=", price)
     );
   }
 
   private async getBooksBelowPrice(price: number): Promise<Map<string, Book>> {
-
-    console.log("Fetching books below price" , price, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
       db.collection("books").where("price", "<=", price)
@@ -329,8 +289,6 @@ class BookController {
     from: number,
     to: number
   ): Promise<Map<string, Book>> {
-
-    console.log("Fetching books between price " , from, " and price ", to, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
       db
@@ -344,8 +302,6 @@ class BookController {
     condition: string[]
   ): Promise<Map<string, Book>> {
 
-    console.log("Fetching books by conditions " , condition, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("condition", "in", condition)
     );
@@ -354,8 +310,6 @@ class BookController {
   private async getBooksByPageCornersFolded(
     isFolded: boolean
   ): Promise<Map<string, Book>> {
-
-    console.log("Fetching books by page corners folded " , isFolded, " ! Epoch time: ", Date.now());
 
     return this.resolveQuery(
       db.collection("books").where("pageCornersFolded", "==", isFolded)
@@ -366,8 +320,6 @@ class BookController {
     isAnnotated: boolean
   ): Promise<Map<string, Book>> {
 
-    console.log("Fetching books by pages annotated " , isAnnotated, " ! Epoch time: ", Date.now());
-
     return this.resolveQuery(
       db.collection("books").where("pagesAnnotated", "==", isAnnotated)
     );
@@ -377,8 +329,6 @@ class BookController {
     hasPictures: boolean
   ): Promise<Map<string, Book>> {
 
-    console.log("Fetching books by having pictures " , hasPictures, " ! Epoch time: ", Date.now());
-
     return await db.collection("books")
     .get()
     .then((querySnapshot: any) => {
@@ -386,20 +336,18 @@ class BookController {
         if (hasPictures) {
             if (doc.data().images.length != 0) {
             this.books.set(doc.id, doc.data() as Book);
-            console.log("book id: ", doc.id, " => ", doc.data());
           }
         }
         else {
           if (doc.data().images.length == 0) {
             this.books.set(doc.id, doc.data() as Book);
-            console.log("book id: ", doc.id, " => ", doc.data());
           }
         }
       });
       return this.books;
     })
     .catch((error: any) => {
-      console.log("Error getting documents: ", error);
+      console.error("Error getting documents: ", error);
       return Promise.reject(error);
     });
   }
@@ -414,12 +362,11 @@ class BookController {
         querySnapshot.forEach((doc: any) => {
           // doc.data() is never undefined for query doc snapshots
           this.books.set(doc.id, doc.data() as Book);
-          console.log("Found book id: ", doc.id, " => ", doc.data());
         });
         return this.books;
       })
       .catch((error: any) => {
-        console.log("Error getting documents: ", error);
+        console.error("Error getting documents: ", error);
         return Promise.reject(error);
       });
   }
@@ -429,16 +376,9 @@ class BookController {
   // Returning true means we stop the advanced search.
   private filterBooks(): boolean {
     this.nbrFilterTimesCalled = this.nbrFilterTimesCalled + 1;
-    console.log("Filter books just got called! Number of times called: ", this.nbrFilterTimesCalled);
-    console.log("The books map looks like this now: ", this.books);
-    console.log("The filtered array ids looks like this now: ", this.filteredBookIds);
 
     // No books were found in the most recent query. Return empty map and end advanced search.
     if (this.books.size == 0) {
-
-      console.log("No books found with this query! The advanced search is over.");
-      console.log("Current books in the books map: ", this.books);
-
       return true;
     }
 
@@ -447,40 +387,27 @@ class BookController {
     // map into the filteredBookIds array.
     if (this.filteredBookIds.length == 0) {
 
-        console.log("First query! Filling up the filtered ids array.");
-
         this.books.forEach((value, key) => {
           this.filteredBookIds.push(key.repeat(1));
         });
-
-        console.log("Filtered ids array after filling up: ", this.filteredBookIds);
 
         return false;
     }
     else { // This is not the first query. We have some books in the map and we have some ids
           // in the filteredBookIds array. Time to compare the ids from the two.
 
-      console.log("Books were found with this query! Comparing ids from array and map!");
-
       // If an id from the books map is not in the array, delete the key from the map.
       this.books.forEach((value, key) => {
         if (!this.filteredBookIds.includes(key)) {
-          console.log("Deleting this key from the map since it's not in the filteredBookIds array: ", key);
           this.books.delete(key); // Remove the book with that id
           // this.filteredBookIds.splice(this.filteredBookIds.indexOf(key, 0), 1); // Remove the book id
         }
       });
-
-      console.log("Book maps after filtering/deleting keys: ", this.books);
     }
 
     // All books found from the most recent query were eliminated.
     // We thus need to return an empty map since the advanced search is over.
     if (this.books.size == 0) {
-
-      console.log("All books found from the most recent query were eliminated! Ending advanced search.");
-      console.log("Current books in the books map: ", this.books);
-
       return true;
     }
     else { // Some books from the map matched books from the array. We need to keep them
@@ -491,10 +418,7 @@ class BookController {
 
       this.books.forEach((value, key) => {
         this.filteredBookIds.push(key.repeat(1));
-      });
-
-      console.log("Copying all ids from map to filteredBookIds array. Array after copying: ", this.filteredBookIds);
-      
+      });      
       return false;
     }
   }

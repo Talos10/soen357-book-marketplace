@@ -6,7 +6,6 @@ import { Book } from '../../../interfaces/book';
 import { useHistory, useParams } from 'react-router';
 import { useSnackbar } from '../../../contexts';
 import AwesomeSlider from 'react-awesome-slider';
-//import 'react-awesome-slider/dist/styles.css';
 import 'react-awesome-slider/src/styled/fold-out-animation/fold-out-animation.scss';
 
 
@@ -16,6 +15,7 @@ export default function BookInfo() {
     const { id } = useParams<{ id: string }>();
     const [book, setBook] = useState<Book>();
 
+    //slider to change between the different pictures
     const slider = (
         <AwesomeSlider animation="foldOutAnimation">
             {book == undefined ? null :
@@ -25,6 +25,7 @@ export default function BookInfo() {
         </AwesomeSlider>
     );
 
+    //loads first
     useEffect(() => {
         const getBook = async () => {
             const books: Map<string, Book> = await (bookController.getBookById(id));
@@ -34,6 +35,7 @@ export default function BookInfo() {
         getBook();
     }, [id]);
 
+    //rendered HTML
     return book === undefined ? (<Progress />) : (
         <div className="BookInfo">
             <div className="top">
