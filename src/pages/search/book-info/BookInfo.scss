@@ -40,10 +40,14 @@
     .clearFix {
       clear:both;
       align-items: center;
-      
-      &__div {
-        margin-bottom: 5%;
+
+      .break-text {
+        word-wrap: break-word;
+        scroll-behavior: smooth;
       }
     }  
+    .space {
+      margin-bottom: 5%;
+    }
   }
   

@@ -17,7 +17,7 @@ export default function BookTable({ props, book }: Props) {
             onClick={() => history.push(`/search/book-info/${id}`)}
         >
             <TableCell>
-                <img className="image" src={book?.images[0]} alt="Image has been deleted" />
+                <img className="image" src={book?.images[0]} alt="Image not available" />
                 <div className="description">
                     <div className="title">{book?.title}</div>
                     <div className="subtitles">Authors : {book?.author}</div>
