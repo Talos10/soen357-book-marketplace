@@ -1,6 +1,8 @@
 # Description of the Project
 A second-hand book marketplace for university students in Montreal.
 
+A live demo of our project is available here: https://www.youtube.com/watch?v=ctzAwYVX4xM
+
 # Running the Project
 To run the project use the following link: https://soen-357-book-marketplace.web.app/
 
